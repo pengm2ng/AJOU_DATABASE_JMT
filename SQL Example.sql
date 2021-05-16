@@ -35,4 +35,3 @@ WHERE biz_reg_no = ?;
 DELETE
 FROM ?
 WHERE PK = ?;
-
