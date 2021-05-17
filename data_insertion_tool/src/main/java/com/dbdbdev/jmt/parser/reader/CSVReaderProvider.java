@@ -2,7 +2,7 @@ package com.dbdbdev.jmt.parser.reader;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -16,14 +16,7 @@ public class CSVReaderProvider {
     private List<File> csvFileList;
 
     public CSVReaderProvider() {
-        File[] fileList = new File(ROOT_PATH).listFiles();
-        csvFileList = new ArrayList<>();
-
-        for (File file : fileList) {
-            if (file.getName().matches("\\.csv$")) {
-                csvFileList.add(file);
-            }
-        }
+        csvFileList = Arrays.asList(new File(ROOT_PATH).listFiles());
     }
 
     public Stream<CSVReader> getCSVFileStream() {
@@ -34,5 +27,15 @@ public class CSVReaderProvider {
                 throw new RuntimeException(e);
             }
         }).map(CSVReader::new);
+    }
+
+    public Stream<String[]> getCSVFileLineStream() {
+        return getCSVFileStream().flatMap(t -> {
+            try {
+                return t.readAll().stream();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
