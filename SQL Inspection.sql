@@ -45,7 +45,7 @@ CREATE TABLE BizPlace
 CREATE TABLE UserRecommend
 (
     biz_reg_no   VARCHAR(10) NOT NULL,
-    like_account int         NOT NULL,
+    like_account INT         NOT NULL,
     FOREIGN KEY (biz_reg_no) REFERENCES BizPlace (biz_reg_no)
 );
 CREATE TABLE ExpendtrExcut
@@ -53,8 +53,8 @@ CREATE TABLE ExpendtrExcut
     accnut_yy          VARCHAR(4)  NOT NULL,
     accnut_div_cd      VARCHAR(3)  NOT NULL,
     dept_cd_nm         VARCHAR(7)  NOT NULL,
-    SUMmry_info        date        NOT NULL,
-    expendtr_rsltn_amt int         NOT NULL,
+    paymnt_command_de  DATE        NOT NULL,
+    expendtr_rsltn_amt INT         NOT NULL,
     biz_reg_no         VARCHAR(10) NOT NULL,
     FOREIGN KEY (accnut_div_cd) REFERENCES AccnutDiv (accnut_div_cd),
     FOREIGN KEY (dept_cd_nm) REFERENCES Dept (dept_cd_nm),
@@ -100,7 +100,7 @@ SELECT govofc_div_nm
 FROM deptdiv,
      govofcdiv
 WHERE deptdiv.dept_div_cd = govofcdiv.dept_div_cd
-  and deptdiv.dept_div_nm = '직속기관';
+  AND deptdiv.dept_div_nm = '직속기관';
 
 
 
@@ -111,7 +111,7 @@ SELECT hgdept_div_nm
 FROM govofcdiv,
      hgdeptdiv
 WHERE hgdeptdiv.govofc_div_cd = govofcdiv.govofc_div_cd
-  and govofcdiv.govofc_div_nm = '수원소방서';
+  AND govofcdiv.govofc_div_nm = '수원소방서';
 
 
 
@@ -122,7 +122,7 @@ SELECT dept_nm
 FROM dept,
      hgdeptdiv
 WHERE dept.hgdept_div_cd = hgdeptdiv.hgdept_div_cd
-  and hgdeptdiv.hgdept_div_nm = '소방서';
+  AND hgdeptdiv.hgdept_div_nm = '소방서';
 -- 3. 검색결과 - 예산 내역 중에서 모든 연도의 6월에서 8월 사이 수원소방서의 BEST 10인 가게 이름, 총지출금액을 알고 싶어.
 /*예산 내역중에서 aaa기관(관서)의 BEST TOP n을 알고 싶다.*/
 SELECT place_nm,
