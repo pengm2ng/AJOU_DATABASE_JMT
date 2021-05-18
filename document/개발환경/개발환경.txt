@@ -1,5 +1,5 @@
 운영체제 - 리눅스 우분투
-개발언어 - java-11, JSP
+개발언어 - Java SE-11, JSP
 CI/CD - Github , maven
 데이터베이스 - PostgreSQL
 협업툴 - Zoom
