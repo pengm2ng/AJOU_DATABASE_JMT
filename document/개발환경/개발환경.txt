@@ -1,8 +1,0 @@
-운영체제 - 리눅스 우분투
-개발언어 - Java SE-11, JSP
-CI/CD - Github , maven
-데이터베이스 - PostgreSQL
-협업툴 - Zoom
-공공데이터 - 경기도 지출집행 현황(일반지출)
-https://data.gg.go.kr/portal/data/service/selectServicePage.do?page=1&rows=10&sortColumn=&sortDirection=&infId=6OCWFQQYK6U2PD0FKSMV27162290&infSeq=2&order=&loc=&searchWord=%EC%97%85%EB%AC%B4%EC%B6%94%EC%A7%84
-
