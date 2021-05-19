@@ -214,3 +214,45 @@ where d2.dept_div_cd like '11' and
 group by place_nm, like_account
 order by total_amt desc
 limit 10;
+
+
+
+
+select sum(expendtr_rsltn_amt) total_amt, place_nm, like_account
+from expendtrexcut e
+         join dept d on e.dept_cd_nm = d.dept_cd_nm
+         join hgdeptdiv h on h.hgdept_div_cd = d.hgdept_div_cd
+         join govofcdiv g on g.govofc_div_cd = h.govofc_div_cd
+         join deptdiv d2 on d2.dept_div_cd = g.dept_div_cd
+         join bizplace b on b.biz_reg_no = e.biz_reg_no
+         left join userrecommend u on b.biz_reg_no = u.biz_reg_no
+where d2.dept_div_cd like '11'
+  and g.govofc_div_cd like '1080'
+  and h.hgdept_div_cd like '%'
+  and d.dept_cd_nm like '%'
+  and extract(month from e.paymnt_command_de) > 6
+  and extract(day from e.paymnt_command_de) < 8
+group by place_nm, like_account
+order by total_amt desc
+limit 10;
+
+
+select sum(expendtr_rsltn_amt) total_amt, place_nm, like_account
+from expendtrexcut e
+         join dept d on e.dept_cd_nm = d.dept_cd_nm
+         join hgdeptdiv h on h.hgdept_div_cd = d.hgdept_div_cd
+         join govofcdiv g on g.govofc_div_cd = h.govofc_div_cd
+         join deptdiv d2 on d2.dept_div_cd = g.dept_div_cd
+         join bizplace b on b.biz_reg_no = e.biz_reg_no
+         left join userrecommend u on b.biz_reg_no = u.biz_reg_no
+where d2.dept_div_cd like '11'
+  and g.govofc_div_cd like '1080'
+  and h.hgdept_div_cd like '%'
+  and d.dept_cd_nm like '%'
+  and extract(month from e.paymnt_command_de) > 6
+  and extract(day from e.paymnt_command_de) < 8
+  and extract(year from e.paymnt_command_de) > 2017
+  and extract(year from e.paymnt_command_de) < 2020
+group by place_nm, like_account
+order by total_amt desc
+limit 10;
