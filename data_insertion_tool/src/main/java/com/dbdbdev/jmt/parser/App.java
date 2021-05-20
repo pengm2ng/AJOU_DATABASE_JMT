@@ -27,9 +27,10 @@ public class App {
 
         List<String[]> expendTrList = new ArrayList<>();
 
+        // || line[15].equals("20302") || line[15].equals("20303")
         csvProvider.getCSVFileLineStream().forEach(line -> {
             if (!line[0].matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")
-                    && (line[15].equals("20301") || line[15].equals("20302") || line[15].equals("20303"))
+                    && (line[15].equals("20301"))
                     && (!line[20].matches("\\*+")) && (!line[21].isEmpty())) {
                 accnutDivMap.putIfAbsent(line[1].strip(), line[2].strip());
                 deptDivMap.putIfAbsent(line[3].strip(), line[4].strip());
