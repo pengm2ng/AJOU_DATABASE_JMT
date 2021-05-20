@@ -18,7 +18,7 @@ create table "GovofcDiv"
         constraint govofcdiv_pk
             primary key,
     dept_div_cd   varchar(2)  not null
-        constraint govofcdiv_deptdiv_dept_div_cd_fk
+        constraint govofcdiv_deptdiv_fk
             references "DeptDiv"
             on update cascade on delete cascade,
     govofc_div_nm varchar(30) not null
