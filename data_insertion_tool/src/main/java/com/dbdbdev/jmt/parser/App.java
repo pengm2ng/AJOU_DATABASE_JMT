@@ -27,11 +27,8 @@ public class App {
 
         List<String[]> expendTrList = new ArrayList<>();
 
-        // || line[15].equals("20302") || line[15].equals("20303")
         csvProvider.getCSVFileLineStream().forEach(line -> {
-            if (!line[0].matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")
-                    && (line[15].equals("20301"))
-                    && (!line[20].matches("\\*+")) && (!line[21].isEmpty())) {
+            if (filterInputAPIData(line)) {
                 accnutDivMap.putIfAbsent(line[1].strip(), line[2].strip());
                 deptDivMap.putIfAbsent(line[3].strip(), line[4].strip());
                 govofcDivMap.putIfAbsent(line[5].strip(), new String[] { line[6].strip(), line[3].strip() });
@@ -44,16 +41,20 @@ public class App {
             }
         });
 
+        System.out.println("Parse Complete");
+
         try (var conn = DriverManager.getConnection("jdbc:postgresql://lanihome.iptime.org/ajoujmt", args[0], args[1]);
                 PreparedStatement expendtrPstmt = conn
-                        .prepareStatement("INSERT INTO ExpendtrExcut VALUES (?, ?, ?, ?, ?, ?)"); // 지출 내역 stmt
-                PreparedStatement deptDivPstmt = conn.prepareStatement("INSERT INTO DeptDiv VALUES (?, ?)"); // 부서 구분
+                        .prepareStatement("INSERT INTO \"ExpendtrExcut\" VALUES (?, ?, ?, ?, ?, ?)"); // 지출 내역 stmt
+                PreparedStatement deptDivPstmt = conn.prepareStatement("INSERT INTO \"DeptDiv\" VALUES (?, ?)"); // 부서 구분
                                                                                                              // stmt
-                PreparedStatement govofcDivPstmt = conn.prepareStatement("INSERT INTO GovofcDiv VALUES (?, ?, ?)");
-                PreparedStatement hgDeptDivPstmt = conn.prepareStatement("INSERT INTO HgdeptDiv VALUES (?, ?, ?)");
-                PreparedStatement deptPstmt = conn.prepareStatement("INSERT INTO Dept VALUES (?, ?, ?)");
-                PreparedStatement accnutDivPstmt = conn.prepareStatement("INSERT INTO AccnutDiv VALUES (?, ?)");
-                PreparedStatement bizPlacePstmt = conn.prepareStatement("INSERT INTO bizPlace VALUES (?, ?)");) {
+                PreparedStatement govofcDivPstmt = conn.prepareStatement("INSERT INTO \"GovofcDiv\" VALUES (?, ?, ?)");
+                PreparedStatement hgDeptDivPstmt = conn.prepareStatement("INSERT INTO \"HgdeptDiv\" VALUES (?, ?)");
+                PreparedStatement deptPstmt = conn.prepareStatement("INSERT INTO \"Dept\" VALUES (?, ?)");
+                PreparedStatement accnutDivPstmt = conn.prepareStatement("INSERT INTO \"AccnutDiv\" VALUES (?, ?)");
+                PreparedStatement bizPlacePstmt = conn.prepareStatement("INSERT INTO \"BizPlace\" VALUES (?, ?)");
+                PreparedStatement govoHgPstmt = conn.prepareStatement("INSERT INTO \"GovofcDiv_HgdeptDiv\" VALUES (?, ?)");
+                PreparedStatement hgdeptDeptPstmt = conn.prepareStatement("INSERT INTO \"HgdeptDiv_Dept\" VALUES (?, ?)");) {
             deptDivMap.entrySet().stream().forEach(entry -> {
                 try {
                     deptDivPstmt.setString(1, entry.getKey());
@@ -80,10 +81,14 @@ public class App {
             hgDeptDivMap.entrySet().stream().forEach(entry -> {
                 try {
                     hgDeptDivPstmt.setString(1, entry.getKey());
-                    hgDeptDivPstmt.setString(2, entry.getValue()[1]);
-                    hgDeptDivPstmt.setString(3, entry.getValue()[0]);
+                    hgDeptDivPstmt.setString(2, entry.getValue()[0]);
                     hgDeptDivPstmt.executeUpdate();
                     hgDeptDivPstmt.clearParameters();
+
+                    govoHgPstmt.setString(1, entry.getValue()[1]);
+                    govoHgPstmt.setString(2, entry.getKey());
+                    govoHgPstmt.executeUpdate();
+                    govoHgPstmt.clearParameters();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -92,10 +97,14 @@ public class App {
             deptMap.entrySet().stream().forEach(entry -> {
                 try {
                     deptPstmt.setString(1, entry.getKey());
-                    deptPstmt.setString(2, entry.getValue()[1]);
-                    deptPstmt.setString(3, entry.getValue()[0]);
+                    deptPstmt.setString(2, entry.getValue()[0]);
                     deptPstmt.executeUpdate();
                     deptPstmt.clearParameters();
+
+                    hgdeptDeptPstmt.setString(1, entry.getValue()[1]);
+                    hgdeptDeptPstmt.setString(2, entry.getKey());
+                    hgdeptDeptPstmt.executeUpdate();
+                    hgdeptDeptPstmt.clearParameters();
                 } catch (SQLException e) {
                     e.printStackTrace();
                     System.out.println("dept  " + entry.getValue()[0] + " " + entry.getValue()[1]);
@@ -148,5 +157,19 @@ public class App {
     public static String toDateStringForm(String nonDateString) {
         return String.format("%s-%s-%s", nonDateString.subSequence(0, 4), nonDateString.subSequence(4, 6),
                 nonDateString.subSequence(6, 8));
+    }
+
+    public static boolean filterInputAPIData(String[] line) {
+        return (
+            (!line[0].matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")) &&    // 한글 행 제외
+            (
+                line[15].equals("20301") || // 20301 통계목코드 포함
+                line[15].equals("20302") || // 20302
+                line[15].equals("20303")    // 20303
+            ) &&
+            (!line[20].matches("\\*+")) &&  // 사업장 명 별표 제외
+            (line[21].strip().length() == 10) &&    // 사업자번호 공란 제외
+            (!line[21].strip().substring(3, 5).matches("81|86|87|88|83|84|85"))
+            );
     }
 }
