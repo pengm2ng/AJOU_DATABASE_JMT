@@ -135,15 +135,15 @@ comment on column "UserRecommend".like_count is '추천수';
 
 create table "ExpendtrExcut"
 (
-    accnut_yy          varchar(4)                   not null,
-    accnut_div_cd      varchar(3)                   not null,
-    dept_cd_nm         varchar(7) default '*******' not null
-        constraint expendtrexcut_dept_fk
-            references "Dept"
-            on update cascade on delete set default,
-    paymnt_command_de  date                         not null,
-    expendtr_rsltn_amt int                          not null,
-    biz_reg_no         varchar(10)                  not null
+    accnut_yy          varchar(4)                                      not null,
+    accnut_div_cd      varchar(3)                                      not null,
+    organization_id    integer                                         not null
+        constraint expendtrexcut_organization_id_fk
+            references "OrganizationChart"
+            on update cascade on delete cascade,
+    paymnt_command_de  date                                            not null,
+    expendtr_rsltn_amt integer                                         not null,
+    biz_reg_no         varchar(10)                                     not null
         constraint expendtrexcut_bizplace_fk
             references "BizPlace"
             on update cascade on delete cascade
@@ -155,7 +155,7 @@ comment on column "ExpendtrExcut".accnut_yy is '회계연도';
 
 comment on column "ExpendtrExcut".accnut_div_cd is '회계구분코드 FK';
 
-comment on column "ExpendtrExcut".dept_cd_nm is '부서코드 FK';
+comment on column "ExpendtrExcut".organization_id is 'organization_id FK';
 
 comment on column "ExpendtrExcut".paymnt_command_de is '지급명령일자';
 
