@@ -136,7 +136,7 @@ create table "UserRecommend"
 
 comment on table "UserRecommend" is '유처 추천';
 
-comment on column "UserRecommend".biz_reg_no is '사업자번호';
+comment on column "UserRecommend".biz_reg_no is '사업자번호 FK';
 
 comment on column "UserRecommend".like_count is '추천수';
 
@@ -160,12 +160,12 @@ comment on table "ExpendtrExcut" is '지출집행내역';
 
 comment on column "ExpendtrExcut".accnut_yy is '회계연도';
 
-comment on column "ExpendtrExcut".accnut_div_cd is '회계구분코드';
+comment on column "ExpendtrExcut".accnut_div_cd is '회계구분코드 FK';
 
-comment on column "ExpendtrExcut".dept_cd_nm is '부서코드';
+comment on column "ExpendtrExcut".dept_cd_nm is '부서코드 FK';
 
 comment on column "ExpendtrExcut".paymnt_command_de is '지급명령일자';
 
 comment on column "ExpendtrExcut".expendtr_rsltn_amt is '지출금액';
 
-comment on column "ExpendtrExcut".biz_reg_no is '사업자번호';
+comment on column "ExpendtrExcut".biz_reg_no is '사업자번호 FK';
