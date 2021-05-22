@@ -1,7 +1,9 @@
 package com.dbdbdev.jmt.parser;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,8 +43,8 @@ public class App {
                 bizPlaceMap.putIfAbsent(line[21].strip(), line[20].strip());
 
                 organizationSet.add(new OrganizationChart(line[3], line[5], line[7], line[9]));
-                expendTrList.add(new String[] { line[0].strip(), line[1].strip(), line[9].strip(), line[19].strip(),
-                        line[18].strip(), line[21].strip() });
+                expendTrList.add(new String[] { line[0].strip(), line[1].strip(), line[19].strip(),
+                        line[18].strip(), line[21].strip(), line[3], line[5], line[7], line[9] });
             }
         });
 
@@ -128,21 +130,6 @@ public class App {
                 }
             });
 
-            expendTrList.stream().forEach(tr -> {
-                try {
-                    expendtrPstmt.setString(1, tr[0]);
-                    expendtrPstmt.setString(2, tr[1]);
-                    expendtrPstmt.setString(3, tr[2]);
-                    expendtrPstmt.setDate(4, java.sql.Date.valueOf(toDateStringForm(tr[3])));
-                    expendtrPstmt.setInt(5, Integer.parseInt(tr[4]));
-                    expendtrPstmt.setString(6, tr[5]);
-                    expendtrPstmt.executeUpdate();
-                    expendtrPstmt.clearParameters();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-
             organizationSet.stream().forEach(set -> {
                 try {
                     organizationPstmt.setString(1, set.dd);
@@ -151,6 +138,21 @@ public class App {
                     organizationPstmt.setString(4, set.dp);
                     organizationPstmt.executeUpdate();
                     organizationPstmt.clearParameters();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            expendTrList.stream().forEach(tr -> {
+                try {
+                    expendtrPstmt.setString(1, tr[0]);
+                    expendtrPstmt.setString(2, tr[1]);
+                    expendtrPstmt.setInt(3, getOrganizationPK(conn, tr));
+                    expendtrPstmt.setDate(4, java.sql.Date.valueOf(toDateStringForm(tr[2])));
+                    expendtrPstmt.setInt(5, Integer.parseInt(tr[3]));
+                    expendtrPstmt.setString(6, tr[4]);
+                    expendtrPstmt.executeUpdate();
+                    expendtrPstmt.clearParameters();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -175,5 +177,22 @@ public class App {
                 (line[21].strip().length() == 10) && // 사업자번호 공란 제외
                 (!line[21].strip().substring(3, 5).matches("81|86|87|88|83|84|85"))
                 && (!line[20].strip().matches("(마트)|(스토어)|(카페)")));
+    }
+
+    public static int getOrganizationPK(Connection conn, String[] data) {
+        try (var pstmt = conn.prepareStatement(
+                "SELECT organization_id FROM \"OrganizationChart\" WHERE dept_div_cd=? AND govofc_div_cd=? AND hgdept_div_cd=? AND dept_cd_nm=?")) {
+            pstmt.setString(1, data[5]);
+            pstmt.setString(2, data[6]);
+            pstmt.setString(3, data[7]);
+            pstmt.setString(4, data[8]);
+
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }
