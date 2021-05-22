@@ -135,15 +135,15 @@ comment on column "UserRecommend".like_count is '추천수';
 
 create table "ExpendtrExcut"
 (
-    accnut_yy          varchar(4)                                      not null,
-    accnut_div_cd      varchar(3)                                      not null,
-    organization_id    integer                                         not null
-        constraint expendtrexcut_organization_id_fk
+    accnut_yy          varchar(4)  not null,
+    accnut_div_cd      varchar(3)  not null,
+    organization_id    integer     not null
+        constraint expendtrexcut_organizationchart_fk
             references "OrganizationChart"
             on update cascade on delete cascade,
-    paymnt_command_de  date                                            not null,
-    expendtr_rsltn_amt integer                                         not null,
-    biz_reg_no         varchar(10)                                     not null
+    paymnt_command_de  date        not null,
+    expendtr_rsltn_amt integer     not null,
+    biz_reg_no         varchar(10) not null
         constraint expendtrexcut_bizplace_fk
             references "BizPlace"
             on update cascade on delete cascade
