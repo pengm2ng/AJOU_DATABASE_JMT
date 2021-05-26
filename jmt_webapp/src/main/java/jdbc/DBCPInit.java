@@ -13,10 +13,10 @@ import org.apache.commons.dbcp2.PoolingDriver;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
-public class DBCPInit extends HttpServlet{
-    //web.xml 해결해야함.
+public class DBCPInit extends HttpServlet {
+	// web.xml 해결해야함.
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	public DBCPInit() {
 		super();
@@ -24,22 +24,21 @@ public class DBCPInit extends HttpServlet{
 
 	@Override
 	public void init() throws ServletException {
-	
+
 		initConnectionPool();
 	}
 
-
 	/**
 	 * postgres는 드라이버 필요 없음
-	 */	
+	 */
 	// private void loadJDBCDRIVER() {
-	// 	System.out.println("\n\nloading jdbcdriver\n");	// 디버그용 out
-	// 	try {
-	// 		Class.forName("");
+	// System.out.println("\n\nloading jdbcdriver\n"); // 디버그용 out
+	// try {
+	// Class.forName("");
 
-	// 	} catch (ClassNotFoundException e) {
-	// 		throw new RuntimeException("fail to load jdbc driver", e);
-	// 	}
+	// } catch (ClassNotFoundException e) {
+	// throw new RuntimeException("fail to load jdbc driver", e);
+	// }
 	// }
 
 	private void initConnectionPool() {
@@ -72,5 +71,4 @@ public class DBCPInit extends HttpServlet{
 
 	}
 
-    
 }
