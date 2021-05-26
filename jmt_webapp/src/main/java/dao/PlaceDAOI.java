@@ -4,8 +4,6 @@ import entity.Place;
 
 public interface PlaceDAOI {
 
-    public PlaceDAOI getInstance();
-
     /**
      * 해당 음식점 좋아요 수 1개 증가
      * 

@@ -14,8 +14,7 @@ public class ExpendtrExcutDAO implements ExpendtrExcutI {
 
     private ExpendtrExcutDAO() { }
 
-    @Override
-    public ExpendtrExcutDAO getInstance() {
+    public static ExpendtrExcutDAO getInstance() {
         return InstHolder.INSTANCE;
     }
 

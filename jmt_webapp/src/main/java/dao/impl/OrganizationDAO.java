@@ -9,8 +9,7 @@ public class OrganizationDAO implements OrganizationDAOI {
 
     private OrganizationDAO() { }
 
-    @Override
-    public OrganizationDAO getInstance() {
+    public static OrganizationDAO getInstance() {
         return InstHolder.INSTANCE;
     }
 

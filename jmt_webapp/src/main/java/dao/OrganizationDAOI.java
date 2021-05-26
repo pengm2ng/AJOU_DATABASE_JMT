@@ -5,8 +5,6 @@ import entity.Organization;
 
 public interface OrganizationDAOI {
 
-    public OrganizationDAOI getInstance();
-
     /**
      * 해당 카테고리 조직의 모든 조직 불러오기
      * 
