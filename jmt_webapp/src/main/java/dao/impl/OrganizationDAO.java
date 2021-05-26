@@ -7,6 +7,17 @@ import entity.Organization;
 
 public class OrganizationDAO implements OrganizationDAOI {
 
+    private OrganizationDAO() { }
+
+    @Override
+    public OrganizationDAO getInstance() {
+        return InstHolder.INSTANCE;
+    }
+
+    private static class InstHolder {
+        public static final OrganizationDAO INSTANCE = new OrganizationDAO();
+    }
+
     @Override
     public List<Organization> getAllOrganization(Class<Organization> organizationClass) {
         // TODO Auto-generated method stub

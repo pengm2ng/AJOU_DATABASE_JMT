@@ -13,64 +13,50 @@ import org.apache.commons.dbcp2.PoolingDriver;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
-public class DBCPInit extends HttpServlet{
-    //web.xml 해결해야함.
+public class DBCPInit extends HttpServlet {
+    // TODO web.xml 해결해야함.
 
     private static final long serialVersionUID = 1L;
 
-	public DBCPInit() {
-		super();
-	}
+    public DBCPInit() {
+        super();
+    }
 
-	@Override
-	public void init() throws ServletException {
-	
-		initConnectionPool();
-	}
+    @Override
+    public void init() throws ServletException {
 
+        initConnectionPool();
+    }
 
-	/**
-	 * postgres는 드라이버 필요 없음
-	 */	
-	// private void loadJDBCDRIVER() {
-	// 	System.out.println("\n\nloading jdbcdriver\n");	// 디버그용 out
-	// 	try {
-	// 		Class.forName("");
+    @SuppressWarnings({"unchecked"})
+    private void initConnectionPool() {
 
-	// 	} catch (ClassNotFoundException e) {
-	// 		throw new RuntimeException("fail to load jdbc driver", e);
-	// 	}
-	// }
+        try {
+            String jdbcUrl = "";
+            String username = "";
+            String pw = "";
 
-	private void initConnectionPool() {
+            ConnectionFactory connFactory = new DriverManagerConnectionFactory(jdbcUrl, username, pw);
+            PoolableConnectionFactory poolableConnFactory = new PoolableConnectionFactory(connFactory, null);
+            poolableConnFactory.setValidationQuery("select 1");
 
-		try {
-			String jdbcUrl = "";
-			String username = "";
-			String pw = "";
+            GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig<>();
+            poolConfig.setTimeBetweenEvictionRunsMillis(1000L * 60L * 5L);
+            poolConfig.setTestWhileIdle(true);
+            poolConfig.setMinIdle(4);
+            poolConfig.setMaxTotal(50);
 
-			ConnectionFactory connFactory = new DriverManagerConnectionFactory(jdbcUrl, username, pw);
-			PoolableConnectionFactory poolableConnFactory = new PoolableConnectionFactory(connFactory, null);
-			poolableConnFactory.setValidationQuery("select 1");
+            GenericObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<PoolableConnection>(
+                    poolableConnFactory, poolConfig);
+            poolableConnFactory.setPool(connectionPool);
 
-			GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig<>();
-			poolConfig.setTimeBetweenEvictionRunsMillis(1000L * 60L * 5L);
-			poolConfig.setTestWhileIdle(true);
-			poolConfig.setMinIdle(4);
-			poolConfig.setMaxTotal(50);
+            Class.forName("org.apache.commons.dbcp2.PoolingDriver");
+            PoolingDriver driver = (PoolingDriver) DriverManager.getDriver("jdbc:apache:commons:dbcp:");
+            driver.registerPool("dbdbdev", connectionPool);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-			GenericObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<PoolableConnection>(
-					poolableConnFactory, poolConfig);
-			poolableConnFactory.setPool(connectionPool);
+    }
 
-			Class.forName("org.apache.commons.dbcp2.PoolingDriver");
-			PoolingDriver driver = (PoolingDriver) DriverManager.getDriver("jdbc:apache:commons:dbcp:");
-			driver.registerPool("dbdbdev", connectionPool);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-
-	}
-
-    
 }

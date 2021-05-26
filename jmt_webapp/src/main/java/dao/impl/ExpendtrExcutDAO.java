@@ -12,11 +12,22 @@ import jdbc.ConnectionProvider;
 
 public class ExpendtrExcutDAO implements ExpendtrExcutI {
 
+    private ExpendtrExcutDAO() { }
+
+    @Override
+    public ExpendtrExcutDAO getInstance() {
+        return InstHolder.INSTANCE;
+    }
+
+    private static class InstHolder {
+        public static final ExpendtrExcutDAO INSTANCE = new ExpendtrExcutDAO();
+    }
+
     @Override
     public List<ExpendtrExcut> getPlaceTopTen(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv,
             Organization dept, Date startDate, Date endDate) {
 
-        /**
+        /*
             select dept_div_nm,
                 govofc_div_nm,
                 hgdept_div_nm,
