@@ -7,8 +7,7 @@ public class PlaceDAO implements PlaceDAOI {
 
     private PlaceDAO() { }
 
-    @Override
-    public PlaceDAO getInstance() {
+    public static PlaceDAO getInstance() {
         return InstHolder.INSTANCE;
     }
 
