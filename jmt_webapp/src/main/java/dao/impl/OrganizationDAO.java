@@ -1,8 +1,11 @@
 package dao.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import dao.OrganizationDAOI;
+import entity.DeptDiv;
+import entity.GovofcDiv;
 import entity.Organization;
 
 public class OrganizationDAO implements OrganizationDAOI {
@@ -19,13 +22,19 @@ public class OrganizationDAO implements OrganizationDAOI {
 
     @Override
     public List<Organization> getAllOrganization(Class<Organization> organizationClass) {
-        // TODO Auto-generated method stub
+        if (organizationClass.equals(DeptDiv.class)) {
+
+        } else if (organizationClass.equals(GovofcDiv.class)) {
+
+        }
         return null;
     }
 
     @Override
     public List<Organization> getChildrenOf(Organization organization) {
-        // TODO Auto-generated method stub
+        if (organization.getClass().equals(DeptDiv.class)) {
+            
+        }
         return null;
     }
 

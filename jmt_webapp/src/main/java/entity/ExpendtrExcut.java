@@ -34,6 +34,12 @@ public class ExpendtrExcut {
         this.place = place;
     }
 
+    public ExpendtrExcut(String accnutYY, int totalAmt, Place place) {
+        this.accnutYY = accnutYY;
+        this.totalAmt = totalAmt;
+        this.place = place;
+    }
+
     public Organization getDeptDiv() {
         return this.deptDiv;
     }
