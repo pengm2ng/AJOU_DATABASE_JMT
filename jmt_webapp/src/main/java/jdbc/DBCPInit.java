@@ -1,5 +1,9 @@
 package jdbc;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.sql.DriverManager;
 
 import javax.servlet.ServletException;
@@ -32,9 +36,16 @@ public class DBCPInit extends HttpServlet {
     private void initConnectionPool() {
 
         try {
-            String jdbcUrl = "";
-            String username = "";
-            String pw = "";
+			File file = new File("./resources/pk.txt");
+			FileInputStream is = new FileInputStream(file);
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr);
+            String jdbcUrl = br.readLine();
+            String username = "pi";
+            String pw = br.readLine();
+			br.close();
+			is.close();
+			isr.close();
 
             ConnectionFactory connFactory = new DriverManagerConnectionFactory(jdbcUrl, username, pw);
             PoolableConnectionFactory poolableConnFactory = new PoolableConnectionFactory(connFactory, null);
