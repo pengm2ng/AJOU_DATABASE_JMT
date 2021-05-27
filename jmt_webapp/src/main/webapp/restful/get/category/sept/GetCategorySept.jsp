@@ -2,7 +2,5 @@
 <%@page import="java.dao.impl.OrganizationDAO"%>
 <%
 
-OrganizationDAO organDAO = new OrganizationDAO();
-
-
+//필요없는 페이지
 %>

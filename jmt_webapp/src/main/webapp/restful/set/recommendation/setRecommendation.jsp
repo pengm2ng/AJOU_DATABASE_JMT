@@ -4,11 +4,12 @@
     
     try{
 
-    PlaceDAO placeDao = new PlaceDAO();
+    
     String bizNo = request.getParameter("bizNo");
     Place place = new Place(bizNo, null , 0);
-    placeDao.updateLikeCount(place);
+    PlaceTestDAO.getInstance().updateLikeCount(place);
     response.setStatus(200);
+    
 
 
     }catch(Exception e){
