@@ -9,4 +9,38 @@
     <servlet-class>jdbc.DBCPInit</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
+
+  <servlet>
+    <servlet-name>getCategory</servlet-name>
+    <jsp-file>/restful/get/category/GetCategory.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>setRecommendation</servlet-name>
+    <jsp-file>/restful/set/recommendation/SetRecommendation.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>getTop10</servlet-name>
+    <jsp-file>/restful/get/top10/GetTop10.jsp</jsp-file>
+  </servlet>
+
+
+  <servlet-mapping>
+    <servlet-name>getCategory</servlet-name>
+    <url-pattern>/restful/get/category</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>setRecommendation</servlet-name>
+    <url-pattern>/restful/set/recommendation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>getTop10</servlet-name>
+    <url-pattern>/restful/get/top10</url-pattern>
+  </servlet-mapping>
+
+
+
+
+
+
+
 </web-app>

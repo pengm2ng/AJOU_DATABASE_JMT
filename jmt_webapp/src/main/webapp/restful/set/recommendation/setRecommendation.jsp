@@ -1,5 +1,7 @@
  <%@ page language="java" contentType="application/json; charset=utf-8"%>
-<%@page import="java.dao.impl.PlaceDAO"%>
+<%@page import="entity.Place"%>
+<%@page import="dao.impl.PlaceDAO"%>
+<%@page import="dao.test.PlaceTestDAO"%>
 <%
     
     try{
@@ -7,7 +9,7 @@
     
     String bizNo = request.getParameter("bizNo");
     Place place = new Place(bizNo, null , 0);
-    PlaceTestDAO.getInstance().updateLikeCount(place);
+    PlaceDAO.getInstance().updateLikeCount(place);
     response.setStatus(200);
     
 
