@@ -14,11 +14,7 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 public class DBCPInit extends HttpServlet {
-<<<<<<< HEAD
-	// web.xml 해결해야함.
-=======
     // TODO web.xml 해결해야함.
->>>>>>> origin/dev
 
 	private static final long serialVersionUID = 1L;
 
