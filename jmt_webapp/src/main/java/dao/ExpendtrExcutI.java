@@ -7,6 +7,7 @@ import entity.ExpendtrExcut;
 import entity.Organization;
 
 public interface ExpendtrExcutI {
+
     /**
      * 해당 부서구분, 관서, 실국, 부서에서 가장 돈을 많이 쓴 음식점 리스트 TOP 10 받아오기
      * 

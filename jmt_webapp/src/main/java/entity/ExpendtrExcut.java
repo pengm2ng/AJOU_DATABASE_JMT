@@ -9,11 +9,32 @@ public class ExpendtrExcut {
     private int totalAmt;
     private Place place;
 
-    public ExpendtrExcut(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv, Organization dept, String accnutYY, int totalAmt, Place place) {
+    public ExpendtrExcut(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv, Organization dept,
+            String accnutYY, int totalAmt, Place place) {
+
+        if (!deptDiv.getClass().equals(DeptDiv.class)) {
+            throw new RuntimeException("deptDiv argument has to be DeptDiv type");
+        }
+        if (!govofcDiv.getClass().equals(GovofcDiv.class)) {
+            throw new RuntimeException("deptDiv argument has to be DeptDiv type");
+        }
+        if (!hgdeptDiv.getClass().equals(HgdeptDiv.class)) {
+            throw new RuntimeException("deptDiv argument has to be DeptDiv type");
+        }
+        if (!dept.getClass().equals(Dept.class)) {
+            throw new RuntimeException("deptDiv argument has to be DeptDiv type");
+        }
+
         this.deptDiv = deptDiv;
         this.govofcDiv = govofcDiv;
         this.hgdeptDiv = hgdeptDiv;
         this.dept = dept;
+        this.accnutYY = accnutYY;
+        this.totalAmt = totalAmt;
+        this.place = place;
+    }
+
+    public ExpendtrExcut(String accnutYY, int totalAmt, Place place) {
         this.accnutYY = accnutYY;
         this.totalAmt = totalAmt;
         this.place = place;
