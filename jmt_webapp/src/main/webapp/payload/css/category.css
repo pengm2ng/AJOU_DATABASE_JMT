@@ -49,3 +49,16 @@
 #intervalFromPanel * {
     display: inline;
 }
+
+#submitButton {
+    border: 2px rgb(45, 94, 255) solid;
+    width: fit-content;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-top: 20px;
+    color: cornflowerblue;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: rgba(241,249,255,1);
+}
