@@ -1,0 +1,51 @@
+#selectionPage {
+    width: 90%;
+    margin: 0 auto;
+    border: 1px deeppink solid;
+}
+
+.selectionTitle {
+    font-size: 18px;
+    margin-left: 5px;
+    color: cornflowerblue;
+    font-weight: bold;
+}
+
+.organization {
+    margin-top: 25px;
+}
+
+#setIntervalPanel {
+    border: 1px red solid;
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#noIntervalPanel {
+    display: inline;
+}
+
+#yesIntervalPanel {
+    display: inline;
+    margin-left: 15px;
+}
+
+#intervalSelectPanel {
+    border: 1px red solid;
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#intervalToPanel {
+    margin-top: 20px;
+}
+
+#intervalToPanel * {
+    display: inline;
+}
+
+#intervalFromPanel * {
+    display: inline;
+}
