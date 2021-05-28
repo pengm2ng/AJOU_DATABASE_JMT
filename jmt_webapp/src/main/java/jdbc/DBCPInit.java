@@ -1,5 +1,9 @@
 package jdbc;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.sql.DriverManager;
 
 import javax.servlet.ServletException;
@@ -16,7 +20,7 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 public class DBCPInit extends HttpServlet {
     // TODO web.xml 해결해야함.
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
     public DBCPInit() {
         super();
@@ -32,9 +36,16 @@ public class DBCPInit extends HttpServlet {
     private void initConnectionPool() {
 
         try {
-            String jdbcUrl = "";
-            String username = "";
-            String pw = "";
+			File file = new File("./resources/pk.txt");
+			FileInputStream is = new FileInputStream(file);
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr);
+            String jdbcUrl = br.readLine();
+            String username = "pi";
+            String pw = br.readLine();
+			br.close();
+			is.close();
+			isr.close();
 
             ConnectionFactory connFactory = new DriverManagerConnectionFactory(jdbcUrl, username, pw);
             PoolableConnectionFactory poolableConnFactory = new PoolableConnectionFactory(connFactory, null);
