@@ -16,7 +16,6 @@
 <%
     response.setHeader("Access-Control-Allow-Origin", "*");
 try{
-
         String deptDiv = request.getParameter("deptDiv");
         String govofcDiv = request.getParameter("govofcDiv");
         String hgdeptDiv = request.getParameter("hgdeptDiv");
@@ -35,8 +34,6 @@ try{
              endDate = request.getParameter("endDate");
             
         }
-
-
         Organization organizationDeptDiv = new DeptDiv(null, deptDiv);
         Organization organizationGovofcDiv = new GovofcDiv(null, govofcDiv);
         Organization organizationHgdeptDiv = new HgdeptDiv(null, hgdeptDiv);
@@ -48,10 +45,7 @@ try{
             Date date2 = Date.valueOf(endDate);
             list = ExpendtrExcutTestDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
                     organizationGovofcDiv, organizationHgdeptDiv, organizationDept, date1, date2);
-
-         
             // json으로 변환
-
         } else if(startDate == "" && endDate == ""){
              list = ExpendtrExcutTestDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
                     organizationGovofcDiv, organizationHgdeptDiv, organizationDept);
@@ -67,7 +61,6 @@ try{
              list = ExpendtrExcutTestDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
                     organizationGovofcDiv, organizationHgdeptDiv, organizationDept,null,date2);
         }
-
         JSONArray jsonArray = new JSONArray();
         JSONObject restaurantJsonObject = new JSONObject();
 
@@ -79,10 +72,9 @@ try{
             jsonObject.put("totalAmount", list.get(i).getTotalAmt());
             jsonObject.put("likeCount", list.get(i).getPlace().getLikeCount());
             jsonObject.put("address", KakaoMapProviderDAO.getInstance().findPlace(list.get(i).getPlace().getPlaceName()).get(0));
-            jsonObject.put("category", KakaoMapProviderDAO.getInstance().findPlace(list.get(i).getPlace().getPlaceName()).get(0));
+            jsonObject.put("category", KakaoMapProviderDAO.getInstance().findPlace(list.get(i).getPlace().getPlaceName()).get(1));
             jsonArray.add(jsonObject);
         }
-
         restaurantJsonObject.put("restaurant", jsonArray);
         System.out.println(restaurantJsonObject.toJSONString());
         out.print(restaurantJsonObject);
