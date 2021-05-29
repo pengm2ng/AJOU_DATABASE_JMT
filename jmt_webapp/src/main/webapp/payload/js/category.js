@@ -39,15 +39,35 @@ function initIntervalButton() {
 
 function initSubmitButton() {
     $("#submitButton").click(function (ev) {
-        var selectedDeptDiv = document.getElementsByName("deptDivSelector")[0].selectedOptions[0].value;
-        var selectedGovofcDiv = document.getElementsByName("govofcDivSelector")[0].selectedOptions[0].value;
-        var selectedHgdeptDiv = document.getElementsByName("hgdeptDivSelector")[0].selectedOptions[0].value;
-        var selectedDept = document.getElementsByName("deptSelector")[0].selectedOptions[0].value;
-        selectedDeptDiv = selectedDeptDiv == "전체" ? null : selectedDeptDiv;
-        selectedGovofcDiv = selectedGovofcDiv == "전체" ? null : selectedGovofcDiv;
-        selectedHgdeptDiv = selectedHgdeptDiv == "전체" ? null : selectedHgdeptDiv;
-        selectedDept = selectedDept == "전체" ? null : selectedDept;
-        location.href="result.html?deptDiv="+selectedDeptDiv+"&govofcDiv="+selectedGovofcDiv+"&hgdeptDiv="+selectedHgdeptDiv+"&dept="+selectedDept;
+        var intervalQuery = "";
+        var isIllegalArgument = false;
+        if (document.querySelector('input[name="setIntervalSelection"]:checked').value === "checkInterval") {
+            var fromYear = document.getElementsByName("yearFromSelector")[0].selectedOptions[0].value;
+            var fromMonth = document.getElementsByName("monthFromSelector")[0].selectedOptions[0].value;
+
+            var toYear = document.getElementsByName("yearToSelector")[0].selectedOptions[0].value;
+            var toMonth = document.getElementsByName("monthToSelector")[0].selectedOptions[0].value;
+
+            if (new Date(fromYear+"-"+fromMonth) > new Date(toYear+"-"+toMonth)) {
+                alert("검색기간이 잘못되었습니다! 다시 입력해 주세요");
+                isIllegalArgument = true;
+            }
+            intervalQuery += "&startDate=" + fromYear + "-" + fromMonth + "&endDate" + toYear + "-" + toMonth;
+        }
+
+        if (!isIllegalArgument) {
+            var selectedDeptDiv = document.getElementsByName("deptDivSelector")[0].selectedOptions[0].value;
+            var selectedGovofcDiv = document.getElementsByName("govofcDivSelector")[0].selectedOptions[0].value;
+            var selectedHgdeptDiv = document.getElementsByName("hgdeptDivSelector")[0].selectedOptions[0].value;
+            var selectedDept = document.getElementsByName("deptSelector")[0].selectedOptions[0].value;
+            selectedDeptDiv = selectedDeptDiv == "전체" ? null : selectedDeptDiv;
+            selectedGovofcDiv = selectedGovofcDiv == "전체" ? null : selectedGovofcDiv;
+            selectedHgdeptDiv = selectedHgdeptDiv == "전체" ? null : selectedHgdeptDiv;
+            selectedDept = selectedDept == "전체" ? null : selectedDept;
+    
+            var hrefLink = "result.html?deptDiv="+selectedDeptDiv+"&govofcDiv="+selectedGovofcDiv+"&hgdeptDiv="+selectedHgdeptDiv+"&dept="+selectedDept;
+            location.href = hrefLink + intervalQuery;
+        }
     });
 }
 
