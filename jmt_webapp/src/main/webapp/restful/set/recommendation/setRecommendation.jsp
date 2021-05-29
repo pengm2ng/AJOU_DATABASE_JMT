@@ -3,7 +3,7 @@
 <%@page import="dao.impl.PlaceDAO"%>
 <%@page import="dao.test.PlaceTestDAO"%>
 <%
-    
+    response.setHeader("Access-Control-Allow-Origin", "*");
     try{
 
     

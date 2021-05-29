@@ -13,8 +13,8 @@
 <%@page import="org.json.simple.JSONObject"%>
 <%@page import="java.sql.Date"%>
 <%@page import="entity.Place"%>
-
 <%
+    response.setHeader("Access-Control-Allow-Origin", "*");
 try{
 
         String deptDiv = request.getParameter("deptDiv");
@@ -58,12 +58,12 @@ try{
 
         }else if(startDate != "" && endDate == ""){
             Date date1 = Date.valueOf(startDate);
-        
+
              list = ExpendtrExcutTestDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
                     organizationGovofcDiv, organizationHgdeptDiv, organizationDept,date1,null);
         }else if(startDate == "" && endDate != ""){
             Date date2 = Date.valueOf(endDate);
-        
+               // TODO Test코드
              list = ExpendtrExcutTestDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
                     organizationGovofcDiv, organizationHgdeptDiv, organizationDept,null,date2);
         }
@@ -78,6 +78,8 @@ try{
             jsonObject.put("bizNumber", list.get(i).getPlace().getBizNo());
             jsonObject.put("totalAmount", list.get(i).getTotalAmt());
             jsonObject.put("likeCount", list.get(i).getPlace().getLikeCount());
+            jsonObject.put("address", KakaoMapProviderDAO.getInstance().findPlace(list.get(i).getPlace().getPlaceName()).get(0));
+            jsonObject.put("category", KakaoMapProviderDAO.getInstance().findPlace(list.get(i).getPlace().getPlaceName()).get(0));
             jsonArray.add(jsonObject);
         }
 
