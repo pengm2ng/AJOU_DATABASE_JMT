@@ -3,18 +3,18 @@ window.onload = initialFunction;
 
 function loadDeptDiv() {
     var xhr = new XMLHttpRequest();
-    xhr.onreadyStateChange = function () {
+    xhr.onload = function () {
         if (this.readyState === 4 && this.status === 200) {
             var jsonList = JSON.parse(xhr.responseText)["deptDiv"];
             jsonList.forEach(element => {
                 var temp = document.createElement("option");
                 temp.textContent = element;
-                document.getElementsByName("deptDivSelector").appendChild(temp);
+                document.getElementsByName("deptDivSelector")[0].appendChild(temp);
             });
         }
     };
 
-    xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/category", true);   // TODO Query 확실치 않음
+    xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/category", true);
     xhr.send();
 }
 
@@ -24,7 +24,7 @@ function initIntervalButton() {
 
         if (value === "checkInterval") {
             var xhr = new XMLHttpRequest();
-            xhr.onreadyStateChange = function () {
+            xhr.onload = function () {
                 if (this.readyState === 4 && this.status === 200) {
                     document.getElementById("intervalSelectPanel").innerHTML = xhr.responseText;
                 }
@@ -55,14 +55,15 @@ function initDeptDivSelection() {
     $("select[name='deptDivSelector']").change(function () {
         var selectedDeptDiv = document.getElementsByName("deptDivSelector")[0].selectedOptions[0].value;
         selectedDeptDiv = selectedDeptDiv == "전체" ? null : selectedDeptDiv;
+        document.getElementsByName("govofcDivSelector")[0].innerHTML = "<option>전체</option>";
         var xhr = new XMLHttpRequest();
-        xhr.onreadyStateChange = function () {
+        xhr.onload = function () {
             if (this.readyState === 4 && this.status === 200) {
                 var jsonList = JSON.parse(xhr.responseText)["govofcDiv"];
                 jsonList.forEach(element => {
                     var temp = document.createElement("option");
                     temp.textContent = element;
-                    document.getElementsByName("govofcDivSelector").appendChild(temp);
+                    document.getElementsByName("govofcDivSelector")[0].appendChild(temp);
                 });
             }
         };
@@ -72,40 +73,42 @@ function initDeptDivSelection() {
 }
 
 function initGovofcDivSelection() {
-    $("select[name='deptDivSelector']").change(function () {
+    $("select[name='govofcDivSelector']").change(function () {
         var selectedDeptDiv = document.getElementsByName("deptDivSelector")[0].selectedOptions[0].value;
         var selectedGovofcDiv = document.getElementsByName("govofcDivSelector")[0].selectedOptions[0].value;
+        document.getElementsByName("hgdeptDivSelector")[0].innerHTML = "<option>전체</option>";
         selectedGovofcDiv = selectedGovofcDiv == "전체" ? null : selectedGovofcDiv;
         var xhr = new XMLHttpRequest();
-        xhr.onreadyStateChange = function () {
+        xhr.onload = function () {
             if (this.readyState === 4 && this.status === 200) {
                 var jsonList = JSON.parse(xhr.responseText)["hgdeptDiv"];
                 jsonList.forEach(element => {
                     var temp = document.createElement("option");
                     temp.textContent = element;
-                    document.getElementsByName("hgdeptDivSelector").appendChild(temp);
+                    document.getElementsByName("hgdeptDivSelector")[0].appendChild(temp);
                 });
             }
         };
-        xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/category?deptDiv="+selectedDeptDiv+"&hgdeptDiv="+selectedGovofcDiv, true);
+        xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/category?deptDiv="+selectedDeptDiv+"&govofcDiv="+selectedGovofcDiv, true);
         xhr.send();
     });
 }
 
 function initHgdeptDivSelection() {
-    $("select[name='deptDivSelector']").change(function () {
+    $("select[name='hgdeptDivSelector']").change(function () {
         var selectedDeptDiv = document.getElementsByName("deptDivSelector")[0].selectedOptions[0].value;
         var selectedGovofcDiv = document.getElementsByName("govofcDivSelector")[0].selectedOptions[0].value;
         var selectedHgdeptDiv = document.getElementsByName("hgdeptDivSelector")[0].selectedOptions[0].value;
+        document.getElementsByName("deptSelector")[0].innerHTML = "<option>전체</option>";
         selectedHgdeptDiv = selectedHgdeptDiv == "전체" ? null : selectedHgdeptDiv;
         var xhr = new XMLHttpRequest();
-        xhr.onreadyStateChange = function () {
+        xhr.onload = function () {
             if (this.readyState === 4 && this.status === 200) {
                 var jsonList = JSON.parse(xhr.responseText)["dept"];
                 jsonList.forEach(element => {
                     var temp = document.createElement("option");
                     temp.textContent = element;
-                    document.getElementsByName("deptSelector").appendChild(temp);
+                    document.getElementsByName("deptSelector")[0].appendChild(temp);
                 });
             }
         };

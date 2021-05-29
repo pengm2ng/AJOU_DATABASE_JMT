@@ -6,7 +6,8 @@
 
 .initFrame {
     border: 1px red solid;
-    max-width: 400px;
+    min-width: 350px;
+    max-width: fit-content;
     margin: 0 auto;
     background-color: white;
 }
@@ -26,6 +27,6 @@
 }
 
 .mainPayload {
+    min-height: 500px;
     border: 1px greenyellow solid;
-    height: 700px;
 }
