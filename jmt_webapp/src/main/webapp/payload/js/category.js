@@ -29,7 +29,7 @@ function initIntervalButton() {
                     document.getElementById("intervalSelectPanel").innerHTML = xhr.responseText;
                 }
             };
-            xhr.open("GET", "http://lanihome.iptime.org:8080/category_interval.html", true);
+            xhr.open("GET", "http://lanihome.iptime.org:8080/payload/html/category_interval.html", true);
             xhr.send();
         } else {
             document.getElementById("intervalSelectPanel").innerHTML = "";
@@ -52,7 +52,7 @@ function initSubmitButton() {
                 alert("검색기간이 잘못되었습니다! 다시 입력해 주세요");
                 isIllegalArgument = true;
             }
-            intervalQuery += "&startDate=" + fromYear + "-" + fromMonth + "&endDate" + toYear + "-" + toMonth;
+            intervalQuery += "&startDate=" + fromYear + "-" + fromMonth + "-01&endDate" + toYear + "-" + toMonth + "-01";
         }
 
         if (!isIllegalArgument) {
@@ -60,10 +60,10 @@ function initSubmitButton() {
             var selectedGovofcDiv = document.getElementsByName("govofcDivSelector")[0].selectedOptions[0].value;
             var selectedHgdeptDiv = document.getElementsByName("hgdeptDivSelector")[0].selectedOptions[0].value;
             var selectedDept = document.getElementsByName("deptSelector")[0].selectedOptions[0].value;
-            selectedDeptDiv = selectedDeptDiv == "전체" ? null : selectedDeptDiv;
-            selectedGovofcDiv = selectedGovofcDiv == "전체" ? null : selectedGovofcDiv;
-            selectedHgdeptDiv = selectedHgdeptDiv == "전체" ? null : selectedHgdeptDiv;
-            selectedDept = selectedDept == "전체" ? null : selectedDept;
+            selectedDeptDiv = selectedDeptDiv == "전체" ? "" : selectedDeptDiv;
+            selectedGovofcDiv = selectedGovofcDiv == "전체" ? "" : selectedGovofcDiv;
+            selectedHgdeptDiv = selectedHgdeptDiv == "전체" ? "" : selectedHgdeptDiv;
+            selectedDept = selectedDept == "전체" ? "" : selectedDept;
     
             var hrefLink = "result.html?deptDiv="+selectedDeptDiv+"&govofcDiv="+selectedGovofcDiv+"&hgdeptDiv="+selectedHgdeptDiv+"&dept="+selectedDept;
             location.href = hrefLink + intervalQuery;
