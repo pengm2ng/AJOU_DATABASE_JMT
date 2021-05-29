@@ -34,16 +34,23 @@ function loadPlace(placeHTML) {
     xhr.onload = function () {
         if (this.readyState === 4 && this.status === 200) {
             var array = JSON.parse(xhr.responseText)["restaurant"];
-            array.forEach(restaurant => {
-                let placeElement = document.createElement("div");
-                placeElement.innerHTML = placeHTML;
-                placeElement.getElementsByClassName("placeName")[0].textContent = restaurant["placeName"];
-                placeElement.getElementsByClassName("placeLocation")[0].textContent = "주소  "+restaurant["address"];
-                placeElement.getElementsByClassName("totalAmt")[0].textContent = "총 지출 금액  "+restaurant["totalAmount"];
-                placeElement.getElementsByClassName("likeCount")[0].textContent = "추천수  "+restaurant["likeCount"]+"👍";
-                document.getElementById("recommendationPanel").appendChild(placeElement);
-                
-            });
+            if (array.length == 0) {
+                let recommendationPanel = document.getElementById("recommendationPanel");
+                recommendationPanel.textContent = "검색된 결과가 없습니다!";
+                recommendationPanel.style.textAlign = "center";
+                recommendationPanel.style.color = "rgb(0, 117, 226)";
+                recommendationPanel.style.fontWeight = "bold";
+            } else {
+                array.forEach(restaurant => {
+                    let placeElement = document.createElement("div");
+                    placeElement.innerHTML = placeHTML;
+                    placeElement.getElementsByClassName("placeName")[0].textContent = restaurant["placeName"];
+                    placeElement.getElementsByClassName("placeLocation")[0].textContent = "주소  "+restaurant["address"];
+                    placeElement.getElementsByClassName("totalAmt")[0].textContent = "총 지출 금액  "+restaurant["totalAmount"];
+                    placeElement.getElementsByClassName("likeCount")[0].textContent = "추천수  "+restaurant["likeCount"]+"👍";
+                    document.getElementById("recommendationPanel").appendChild(placeElement);
+                });
+            }
         }
     };
     xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/top10?deptDiv="
