@@ -1,0 +1,46 @@
+#recommendationTitle {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#recommendationPanel {
+    border: 2px rgb(0, 117, 226) solid;
+    border-radius: 12px;
+    background-color: rgba(0, 117, 226, 0.082);
+    width: 95%;
+    margin: 0 auto;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+.recommendationElement {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 20px;
+    color: rgb(0, 117, 226);
+    /* border: 1px rgb(0, 117, 226) solid; */
+    border-radius: 7px;
+    padding: 4px;
+}
+
+.recommendationElement .placeName {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.likePlaceButton {
+    margin-left: 260px;
+    background-color: dodgerblue;
+    color: white;
+    border-radius: 3px;
+    text-align: center;
+    -ms-user-select: none; 
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}

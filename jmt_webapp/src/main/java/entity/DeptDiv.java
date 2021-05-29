@@ -5,7 +5,7 @@ package entity;
  */
 public class DeptDiv extends Organization {
 
-    protected DeptDiv(String organizationCode, String organizationName) {
+    public DeptDiv(String organizationCode, String organizationName) {
         super(organizationCode, organizationName);
     }
 

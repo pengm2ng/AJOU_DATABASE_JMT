@@ -1,0 +1,69 @@
+#selectionPage {
+    width: 90%;
+    margin: 0 auto;
+    border: 1px deeppink solid;
+}
+
+.selectionTitle {
+    font-size: 18px;
+    margin-left: 5px;
+    color: cornflowerblue;
+    font-weight: bold;
+}
+
+.organization {
+    margin-top: 25px;
+}
+
+#setIntervalPanel {
+    border: 1px red solid;
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#noIntervalPanel {
+    display: inline;
+}
+
+#yesIntervalPanel {
+    display: inline;
+    margin-left: 15px;
+}
+
+#intervalSelectPanel {
+    border: 1px red solid;
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#intervalToPanel {
+    margin-top: 20px;
+}
+
+#intervalToPanel * {
+    display: inline;
+}
+
+#intervalFromPanel * {
+    display: inline;
+}
+
+#submitButton {
+    border: 3px dodgerblue solid;
+    width: fit-content;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-top: 20px;
+    color: cornflowerblue;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: rgba(241,249,255,1);
+    -ms-user-select: none; 
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
