@@ -1,0 +1,10 @@
+#startButton {
+    border-radius: 6px;
+    background-color: rgba(241,249,255,1);
+    width: 100px;
+    padding: 20px 5px;
+    margin: 0 auto;
+    margin-top: 300px;
+    text-align: center;
+    border: 3px dodgerblue solid;
+}

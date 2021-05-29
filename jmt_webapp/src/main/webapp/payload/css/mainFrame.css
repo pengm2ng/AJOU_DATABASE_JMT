@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.initFrame {
+    border: 1px red solid;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: white;
+}
+
+.topperHeader {
+    border: 1px darkorchid solid;
+    height: 80px;
+    background-color: rgba(241,249,255,1);
+}
+
+.topperTitle {
+    border: 1px cyan solid;
+    margin-top: 25px;
+    text-align: center;
+    font-size: 20px;
+    color: cornflowerblue;
+}
+
+.mainPayload {
+    border: 1px greenyellow solid;
+    height: 700px;
+}
