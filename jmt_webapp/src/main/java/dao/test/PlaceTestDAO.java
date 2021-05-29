@@ -22,6 +22,7 @@ public class PlaceTestDAO implements PlaceDAOI{
         System.out.println(place.getBizNo());
         System.out.println(place.getPlaceName());
         System.out.println(place.getLikeCount());
+
     
     }
     
