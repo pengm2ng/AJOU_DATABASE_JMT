@@ -14,7 +14,7 @@ function loadDeptDiv() {
         }
     };
 
-    xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/category/sept?query=deptDiv", true);   // TODO Query 확실치 않음
+    xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/category", true);   // TODO Query 확실치 않음
     xhr.send();
 }
 
@@ -66,13 +66,14 @@ function initDeptDivSelection() {
                 });
             }
         };
-        xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/category?govofcDiv="+selectedDeptDiv, true);
+        xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/category?deptDiv="+selectedDeptDiv, true);
         xhr.send();
     });
 }
 
 function initGovofcDivSelection() {
     $("select[name='deptDivSelector']").change(function () {
+        var selectedDeptDiv = document.getElementsByName("deptDivSelector")[0].selectedOptions[0].value;
         var selectedGovofcDiv = document.getElementsByName("govofcDivSelector")[0].selectedOptions[0].value;
         selectedGovofcDiv = selectedGovofcDiv == "전체" ? null : selectedGovofcDiv;
         var xhr = new XMLHttpRequest();
@@ -86,13 +87,15 @@ function initGovofcDivSelection() {
                 });
             }
         };
-        xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/category?hgdeptDiv="+selectedGovofcDiv, true);
+        xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/category?deptDiv="+selectedDeptDiv+"&hgdeptDiv="+selectedGovofcDiv, true);
         xhr.send();
     });
 }
 
 function initHgdeptDivSelection() {
     $("select[name='deptDivSelector']").change(function () {
+        var selectedDeptDiv = document.getElementsByName("deptDivSelector")[0].selectedOptions[0].value;
+        var selectedGovofcDiv = document.getElementsByName("govofcDivSelector")[0].selectedOptions[0].value;
         var selectedHgdeptDiv = document.getElementsByName("hgdeptDivSelector")[0].selectedOptions[0].value;
         selectedHgdeptDiv = selectedHgdeptDiv == "전체" ? null : selectedHgdeptDiv;
         var xhr = new XMLHttpRequest();
@@ -106,7 +109,8 @@ function initHgdeptDivSelection() {
                 });
             }
         };
-        xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/category?dept="+selectedHgdeptDiv, true);
+        xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/category?deptDiv="
+                                +selectedDeptDiv+"&hgdeptDiv="+selectedHgdeptDiv+"&govofcDiv="+selectedGovofcDiv, true);
         xhr.send();
     });
 }
