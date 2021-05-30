@@ -1,5 +1,4 @@
- <%@ page language="java" contentType="application/json; charset=utf-8"%>
-
+<%@ page language="java" contentType="application/json; charset=utf-8"%>
 <%@page import="dao.test.OrganizationTestDAO"%>
 <%@page import="dao.impl.OrganizationDAO"%>
 <%@page import="entity.Organization"%>
@@ -15,6 +14,7 @@
 <%@page import="java.sql.Date"%>
 <%@page import="entity.Place"%>
 <%
+    response.setHeader("Access-Control-Allow-Origin", "*");
 try{
  // 상위개념이 선택되었을 때, 카테고리 선택
         // 상위가 null 이면 하위도 무조건 null
@@ -88,7 +88,7 @@ try{
 
             if (govofcDiv == "") {
 
-                list = OrganizationTestDAO.getInstance().getChildrenOf(organizationGovofcDiv);
+                list = OrganizationTestDAO.getInstance().getChildrenOf(organizationDeptDiv);
                 for (int i = 0; i < list.size(); i++) {
                     jsonArray.add((list.get(i)).getOrganizationName());
                 }
@@ -101,7 +101,7 @@ try{
 
                 if (hgdeptDiv == "") {
 
-                    list = OrganizationTestDAO.getInstance().getChildrenOf(organizationHgdeptDiv);
+                    list = OrganizationTestDAO.getInstance().getChildrenOf(organizationGovofcDiv);
                     for (int i = 0; i < list.size(); i++) {
                         jsonArray.add((list.get(i)).getOrganizationName());
                     }
@@ -111,7 +111,7 @@ try{
                     System.out.println(jsonObject.toJSONString());
                 } else if (hgdeptDiv != "") {
 
-                    list = OrganizationTestDAO.getInstance().getChildrenOf(organizationDept);
+                    list = OrganizationTestDAO.getInstance().getChildrenOf(organizationhgdeptDiv);
                     for (int i = 0; i < list.size(); i++) {
                         jsonArray.add((list.get(i)).getOrganizationName());
                     }
@@ -133,5 +133,4 @@ try{
     e.printStackTrace();
 
 }
-
 %>
