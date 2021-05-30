@@ -35,7 +35,7 @@ public class KakaoMapProviderDAO {
         
         try {
             
-            File file = new File("../webapps/ROOT/resources/kakaoKey.txt");
+            File file = new File("../webapps/ROOT/WEB-INF/resources/kakaoKey.txt");
             BufferedReader inFiles
             
             = new BufferedReader(new InputStreamReader(new FileInputStream(file.getAbsolutePath()), "UTF8"));
