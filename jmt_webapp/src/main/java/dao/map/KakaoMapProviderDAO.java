@@ -31,7 +31,7 @@ public class KakaoMapProviderDAO {
         public static final KakaoMapProviderDAO INSTANCE = new KakaoMapProviderDAO();
     }
 
-    public List findPlace(String placeName) {
+    public List<String> findPlace(String placeName) {
         
         try {
             File file = new File("./resources/kakaoKey.txt");
@@ -72,11 +72,14 @@ public class KakaoMapProviderDAO {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(sb.toString());
             JSONArray jsonArray = (JSONArray) jsonObject.get("documents");
             JSONObject jsonObject2 = (JSONObject) jsonArray.get(0);
-            List list = new ArrayList<>();
-            list.add(jsonObject2.get("address_name"));
-            list.add(jsonObject2.get("category_name"));
-            list.add(jsonObject2.get("x"));
-            list.add(jsonObject2.get("y"));
+            List<String> list = new ArrayList();
+
+            String[] array = jsonObject2.get("category_name").toString().split("> ");
+
+            list.add(jsonObject2.get("address_name").toString());
+            list.add((array[array.length - 1]));
+            list.add(jsonObject2.get("x").toString());
+            list.add(jsonObject2.get("y").toString());
             conn.disconnect();
             return list;
         } catch (UnsupportedEncodingException e) {

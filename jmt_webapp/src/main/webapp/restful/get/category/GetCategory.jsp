@@ -88,7 +88,7 @@ try{
 
             if (govofcDiv == "") {
 
-                list = OrganizationTestDAO.getInstance().getChildrenOf(organizationGovofcDiv);
+                list = OrganizationTestDAO.getInstance().getChildrenOf(organizationDeptDiv);
                 for (int i = 0; i < list.size(); i++) {
                     jsonArray.add((list.get(i)).getOrganizationName());
                 }
@@ -101,7 +101,7 @@ try{
 
                 if (hgdeptDiv == "") {
 
-                    list = OrganizationTestDAO.getInstance().getChildrenOf(organizationHgdeptDiv);
+                    list = OrganizationTestDAO.getInstance().getChildrenOf(organizationGovofcDiv);
                     for (int i = 0; i < list.size(); i++) {
                         jsonArray.add((list.get(i)).getOrganizationName());
                     }
@@ -111,7 +111,7 @@ try{
                     System.out.println(jsonObject.toJSONString());
                 } else if (hgdeptDiv != "") {
 
-                    list = OrganizationTestDAO.getInstance().getChildrenOf(organizationDept);
+                    list = OrganizationTestDAO.getInstance().getChildrenOf(organizationhgdeptDiv);
                     for (int i = 0; i < list.size(); i++) {
                         jsonArray.add((list.get(i)).getOrganizationName());
                     }
