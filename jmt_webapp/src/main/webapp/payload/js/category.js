@@ -52,7 +52,7 @@ function initSubmitButton() {
                 alert("검색기간이 잘못되었습니다! 다시 입력해 주세요");
                 isIllegalArgument = true;
             }
-            intervalQuery += "&startDate=" + fromYear + "-" + fromMonth + "-01&endDate" + toYear + "-" + toMonth + "-01";
+            intervalQuery += "&startDate=" + fromYear + "-" + fromMonth + "-01&endDate=" + toYear + "-" + toMonth + "-31";
         }
 
         if (!isIllegalArgument) {
@@ -74,7 +74,7 @@ function initSubmitButton() {
 function initDeptDivSelection() {
     $("select[name='deptDivSelector']").change(function () {
         var selectedDeptDiv = document.getElementsByName("deptDivSelector")[0].selectedOptions[0].value;
-        selectedDeptDiv = selectedDeptDiv == "전체" ? null : selectedDeptDiv;
+        selectedDeptDiv = selectedDeptDiv == "전체" ? "" : selectedDeptDiv;
         document.getElementsByName("govofcDivSelector")[0].innerHTML = "<option>전체</option>";
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
@@ -97,7 +97,7 @@ function initGovofcDivSelection() {
         var selectedDeptDiv = document.getElementsByName("deptDivSelector")[0].selectedOptions[0].value;
         var selectedGovofcDiv = document.getElementsByName("govofcDivSelector")[0].selectedOptions[0].value;
         document.getElementsByName("hgdeptDivSelector")[0].innerHTML = "<option>전체</option>";
-        selectedGovofcDiv = selectedGovofcDiv == "전체" ? null : selectedGovofcDiv;
+        selectedGovofcDiv = selectedGovofcDiv == "전체" ? "" : selectedGovofcDiv;
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -120,7 +120,7 @@ function initHgdeptDivSelection() {
         var selectedGovofcDiv = document.getElementsByName("govofcDivSelector")[0].selectedOptions[0].value;
         var selectedHgdeptDiv = document.getElementsByName("hgdeptDivSelector")[0].selectedOptions[0].value;
         document.getElementsByName("deptSelector")[0].innerHTML = "<option>전체</option>";
-        selectedHgdeptDiv = selectedHgdeptDiv == "전체" ? null : selectedHgdeptDiv;
+        selectedHgdeptDiv = selectedHgdeptDiv == "전체" ? "" : selectedHgdeptDiv;
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
             if (this.readyState === 4 && this.status === 200) {

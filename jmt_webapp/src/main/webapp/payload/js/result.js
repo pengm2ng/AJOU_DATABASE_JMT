@@ -34,16 +34,55 @@ function loadPlace(placeHTML) {
     xhr.onload = function () {
         if (this.readyState === 4 && this.status === 200) {
             var array = JSON.parse(xhr.responseText)["restaurant"];
-            array.forEach(restaurant => {
-                let placeElement = document.createElement("div");
-                placeElement.innerHTML = placeHTML;
-                placeElement.getElementsByClassName("placeName")[0].textContent = restaurant["placeName"];
-                placeElement.getElementsByClassName("placeLocation")[0].textContent = "주소  "+restaurant["address"];
-                placeElement.getElementsByClassName("totalAmt")[0].textContent = "총 지출 금액  "+restaurant["totalAmount"];
-                placeElement.getElementsByClassName("likeCount")[0].textContent = "추천수  "+restaurant["likeCount"]+"👍";
-                document.getElementById("recommendationPanel").appendChild(placeElement);
-                
-            });
+            if (array.length == 0 || array == null) {
+                let recommendationPanel = document.getElementById("recommendationPanel");
+                recommendationPanel.textContent = "검색된 결과가 없습니다!";
+                recommendationPanel.style.textAlign = "center";
+                recommendationPanel.style.color = "rgb(0, 117, 226)";
+                recommendationPanel.style.fontWeight = "bold";
+            } else {
+                array.forEach(restaurant => {
+                    let placeElement = document.createElement("div");
+                    placeElement.innerHTML = placeHTML;
+                    placeElement.getElementsByClassName("placeName")[0].textContent = restaurant["placeName"];
+                    placeElement.getElementsByClassName("placeLocation")[0].textContent = "주소  "+restaurant["address"];
+                    placeElement.getElementsByClassName("totalAmt")[0].textContent = "총 지출 금액  "+restaurant["totalAmount"];
+                    placeElement.getElementsByClassName("likeCount")[0].textContent = "추천수  "+restaurant["likeCount"]+"👍";
+                    placeElement.getElementsByClassName("placeCategory")[0].textContent = restaurant["category"];
+                    placeElement.getElementsByClassName("likePlaceButton")[0].setAttribute("itemid", restaurant["bizNumber"]);
+                    placeElement.getElementsByClassName("likePlaceButton")[0].onclick = function (ev) {
+                        var cookie = document.cookie.match(new RegExp(
+                            "(?:^|; )" + "JMTRecom".replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+                        ));
+                        cookie = cookie ? decodeURIComponent(cookie[1]) : undefined;
+                        var cookieJSON;
+                        if (cookie === undefined) {
+                            cookieJSON = JSON.parse("{\"bizNo\": []}");
+                        } else {
+                            cookieJSON = JSON.parse(cookie);
+                        }
+
+                        var bizNo = ev.target.getAttribute("itemid");
+                        if (cookieJSON["bizNo"].includes(bizNo)) {
+                            // 이미 추천 함
+                            document.getElementById("alreadyRecommendedModal").style.display = "block";
+                        } else {
+                            var xhrI = new XMLHttpRequest();
+                            xhrI.onload = function () {
+                                if (this.readyState === 4 && this.status === 200) {
+                                    cookieJSON["bizNo"].push(bizNo);
+                                    document.cookie = "JMTRecom="+JSON.stringify(cookieJSON);
+                                    // 추천완료 모달창
+                                    document.getElementById("recommendSuccessModal").style.display = "block";
+                                }
+                            };
+                            xhrI.open("GET", "http://lanihome.iptime.org:8080/restful/set/recommendation?bizNo="+bizNo, true);
+                            xhrI.send();
+                        }
+                    };  // TODO
+                    document.getElementById("recommendationPanel").appendChild(placeElement);
+                });
+            }
         }
     };
     xhr.open("GET", "http://lanihome.iptime.org:8080/restful/get/top10?deptDiv="
@@ -63,6 +102,20 @@ function loadPlaceHTML(resolve, reject) {
     xhrElement.send();
 }
 
+function initModalButton() {
+    document.getElementById("alreadyRecommendedClose").onclick = function () {
+        document.getElementById("alreadyRecommendedModal").style.display = "none";
+    }
+    document.getElementById("recommendSuccessClose").onclick = function () {
+        document.getElementById("recommendSuccessModal").style.display = "none";
+    }
+}
+
+function delRecomCookie() {
+    document.cookie = "JMTRecom = {\"bizNo\": []}";
+}
+
 function initialFunction() {
     new Promise(loadPlaceHTML).then(loadPlace);
+    initModalButton();
 }
