@@ -36,7 +36,7 @@ public class DBCPInit extends HttpServlet {
     private void initConnectionPool() {
 
         try {
-			File file = new File("./resources/pk.txt");
+			File file = new File("../webapps/ROOT/resources/pk.txt");
 			FileInputStream is = new FileInputStream(file);
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);

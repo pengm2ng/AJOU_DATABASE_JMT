@@ -34,12 +34,14 @@ public class KakaoMapProviderDAO {
     public List<String> findPlace(String placeName) {
         
         try {
-            File file = new File("./resources/kakaoKey.txt");
-            FileInputStream is = new FileInputStream(file);
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-            String key = br.readLine();
-            br.close();
+            
+            File file = new File("../webapps/ROOT/resources/kakaoKey.txt");
+            BufferedReader inFiles
+            
+            = new BufferedReader(new InputStreamReader(new FileInputStream(file.getAbsolutePath()), "UTF8"));
+
+            String key = inFiles.readLine();
+            inFiles.close();
             URL url = new URL("https://dapi.kakao.com/v2/local/search/keyword.json?page=1&size=1&sort=accuracy&query="
                     + URLEncoder.encode(placeName, "utf-8"));
             System.out.println(url.toString());

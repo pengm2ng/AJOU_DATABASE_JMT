@@ -71,7 +71,7 @@ try{
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
 
-        if (deptDiv == "") {
+        if (deptDiv.equals("")) {
 
             list = OrganizationTestDAO.getInstance()
                     .getAllOrganization((Class<Organization>) organizationDeptDiv.getClass());
@@ -111,7 +111,7 @@ try{
                     System.out.println(jsonObject.toJSONString());
                 } else if (hgdeptDiv != "") {
 
-                    list = OrganizationTestDAO.getInstance().getChildrenOf(organizationhgdeptDiv);
+                    list = OrganizationTestDAO.getInstance().getChildrenOf(organizationHgdeptDiv);
                     for (int i = 0; i < list.size(); i++) {
                         jsonArray.add((list.get(i)).getOrganizationName());
                     }

@@ -13,6 +13,7 @@
 <%@page import="org.json.simple.JSONObject"%>
 <%@page import="java.sql.Date"%>
 <%@page import="entity.Place"%>
+<%@page import="dao.map.KakaoMapProviderDAO"%>
 <%
     response.setHeader("Access-Control-Allow-Origin", "*");
 try{
