@@ -24,7 +24,7 @@ public class OrganizationTestDAO implements OrganizationDAOI{
     @Override
     public List<Organization> getAllOrganization(Class<Organization> organizationClass) {
             List<Organization> list = new ArrayList<>();
-        if (organizationClass.equals(DeptDiv.class)) {
+        
             System.out.println("올 부서");
             System.out.println(organizationClass.getName());
             Organization organization = new DeptDiv("123123", "외청");
@@ -32,7 +32,7 @@ public class OrganizationTestDAO implements OrganizationDAOI{
             list.add(organization);
             list.add(organization2);
 
-        } 
+        
         return list;
     }
 
@@ -76,8 +76,7 @@ public class OrganizationTestDAO implements OrganizationDAOI{
             System.out.println(organization.getOrganizationName());
             Organization organization1 = new Dept("123123", "외청부서");
             Organization organization2 = new Dept("123122", "본청부서");
-            list.add(organization1);
-            list.add(organization2);
+   
 
             if(organization.getOrganizationName().equals("외청실국")){
                 
