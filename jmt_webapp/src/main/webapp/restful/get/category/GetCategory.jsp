@@ -27,7 +27,7 @@
             Organization organizationDeptDiv;
             Organization organizationHgdeptDiv;
 
-            if (request.getParameter("deptDiv").isEmpty()) {
+            if (request.getParameter("deptDiv")==null && request.getParameter("deptDiv").isEmpty()) {
                organizationDeptDiv = new DeptDiv(null, null);
 
             } else {
@@ -37,7 +37,7 @@
 
             }
 
-            if (request.getParameter("govofcDiv").isEmpty()) {
+            if (request.getParameter("govofcDiv")==null && request.getParameter("govofcDiv").isEmpty()) {
 
                 organizationGovofcDiv = new GovofcDiv(null, null);
             } else {
@@ -46,14 +46,14 @@
             }
 
 
-            if (request.getParameter("hgdeptDiv").isEmpty()) {
+            if (request.getParameter("hgdeptDiv")==null && request.getParameter("hgdeptDiv").isEmpty()) {
                 organizationHgdeptDiv = new HgdeptDiv(null, null);
             } else {
                  hgdeptDiv = request.getParameter("hgdeptDiv");
                organizationHgdeptDiv = new HgdeptDiv(null, hgdeptDiv);
             }
 
-            if (request.getParameter("dept").isEmpty()) {
+            if (request.getParameter("dept")==null && request.getParameter("dept").isEmpty()) {
                 organizationDept = new Dept(null, null);
             } else {
                 dept = request.getParameter("dept");
