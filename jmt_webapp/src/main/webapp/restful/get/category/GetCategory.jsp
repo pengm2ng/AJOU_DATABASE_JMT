@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="application/json; charset=utf-8"%>
+<%@ page language="java" contentType="application/json; charset=utf-8" trimDirectiveWhitespaces="true"%>
 <%@page import="dao.test.OrganizationTestDAO"%>
 <%@page import="dao.impl.OrganizationDAO"%>
 <%@page import="entity.Organization"%>
@@ -27,17 +27,15 @@
             Organization organizationDeptDiv;
             Organization organizationHgdeptDiv;
 
-            if (request.getParameter("deptDiv")==null && request.getParameter("deptDiv").isEmpty()) {
+            if (request.getParameter("deptDiv") == null || request.getParameter("deptDiv").isEmpty()) {
                organizationDeptDiv = new DeptDiv(null, null);
 
             } else {
                  deptDiv = request.getParameter("deptDiv");
                  organizationDeptDiv = new DeptDiv(null, deptDiv);
-
-
             }
 
-            if (request.getParameter("govofcDiv")==null && request.getParameter("govofcDiv").isEmpty()) {
+            if (request.getParameter("govofcDiv") == null || request.getParameter("govofcDiv").isEmpty()) {
 
                 organizationGovofcDiv = new GovofcDiv(null, null);
             } else {
@@ -46,14 +44,14 @@
             }
 
 
-            if (request.getParameter("hgdeptDiv")==null && request.getParameter("hgdeptDiv").isEmpty()) {
+            if (request.getParameter("hgdeptDiv") == null || request.getParameter("hgdeptDiv").isEmpty()) {
                 organizationHgdeptDiv = new HgdeptDiv(null, null);
             } else {
                  hgdeptDiv = request.getParameter("hgdeptDiv");
                organizationHgdeptDiv = new HgdeptDiv(null, hgdeptDiv);
             }
 
-            if (request.getParameter("dept")==null && request.getParameter("dept").isEmpty()) {
+            if (request.getParameter("dept") == null || request.getParameter("dept").isEmpty()) {
                 organizationDept = new Dept(null, null);
             } else {
                 dept = request.getParameter("dept");
@@ -64,7 +62,7 @@
             JSONArray jsonArray = new JSONArray();
             JSONObject jsonObject = new JSONObject();
 
-            if (deptDiv.isEmpty()) {
+            if (deptDiv == null || deptDiv.isEmpty()) {
 
                 list = OrganizationDAO.getInstance()
                         .getAllOrganization((Class<Organization>) organizationDeptDiv.getClass());
@@ -79,7 +77,7 @@
 
             } else {
 
-                if (govofcDiv.isEmpty()) {
+                if (govofcDiv == null || govofcDiv.isEmpty()) {
 
                     list = OrganizationDAO.getInstance().getChildrenOf(organizationDeptDiv,organizationGovofcDiv,organizationHgdeptDiv,organizationDept);
                     for (int i = 0; i < list.size(); i++) {
@@ -92,7 +90,7 @@
 
                 } else {
 
-                    if (hgdeptDiv.isEmpty()) {
+                    if (hgdeptDiv == null || hgdeptDiv.isEmpty()) {
 
                         list = OrganizationDAO.getInstance().getChildrenOf(organizationDeptDiv,organizationGovofcDiv,organizationHgdeptDiv,organizationDept);
                         for (int i = 0; i < list.size(); i++) {
@@ -108,20 +106,12 @@
                         for (int i = 0; i < list.size(); i++) {
                             jsonArray.add((list.get(i)).getOrganizationName());
                         }
-
                         jsonObject.put("dept", jsonArray);
-
                         System.out.println(jsonObject.toJSONString());
                     }
-
                 }
-
             }
-
-            // json 변환
-
-            out.print(jsonObject);
-
+            out.print(jsonObject.toJSONString());
     }catch(Exception e){
         e.printStackTrace();
 

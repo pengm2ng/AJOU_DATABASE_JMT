@@ -23,7 +23,9 @@ public class OrganizationDAO implements OrganizationDAOI {
             +     "join \"GovofcDiv\" GD on GD.govofc_div_cd = \"OrganizationChart\".govofc_div_cd\n"
             +     "join \"HgdeptDiv\" HD on HD.hgdept_div_cd = \"OrganizationChart\".hgdept_div_cd\n"
             +     "join \"Dept\" D on D.dept_cd_nm = \"OrganizationChart\".dept_cd_nm\n"
-            + "where dept_div_nm like ?\n" + "and govofc_div_nm like ?\n" + "and hgdept_div_nm like ?\n"
+            + "where dept_div_nm like ?\n"
+            + "and govofc_div_nm like ?\n"
+            + "and hgdept_div_nm like ?\n"
             + "and dept_nm like ?";
 
     private OrganizationDAO() {
