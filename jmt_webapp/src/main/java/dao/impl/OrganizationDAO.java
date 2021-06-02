@@ -19,10 +19,10 @@ import jdbc.ConnectionProvider;
 public class OrganizationDAO implements OrganizationDAOI {
     private static final String ORGANIZATION_QUERY = "select dept_div_nm, govofc_div_nm, hgdept_div_nm, dept_nm\n"
             + "from \"OrganizationChart\"\n"
-            + "        join \"DeptDiv\" DD on DD.dept_div_cd = \"OrganizationChart\".dept_div_cd\n"
-            + "        join \"GovofcDiv\" GD on GD.govofc_div_cd = \"OrganizationChart\".govofc_div_cd\n"
-            + "        join \"HgdeptDiv\" HD on HD.hgdept_div_cd = \"OrganizationChart\".hgdept_div_cd\n"
-            + "        join \"Dept\" D on D.dept_cd_nm = \"OrganizationChart\".dept_cd_nm\n"
+            +     "join \"DeptDiv\" DD on DD.dept_div_cd = \"OrganizationChart\".dept_div_cd\n"
+            +     "join \"GovofcDiv\" GD on GD.govofc_div_cd = \"OrganizationChart\".govofc_div_cd\n"
+            +     "join \"HgdeptDiv\" HD on HD.hgdept_div_cd = \"OrganizationChart\".hgdept_div_cd\n"
+            +     "join \"Dept\" D on D.dept_cd_nm = \"OrganizationChart\".dept_cd_nm\n"
             + "where dept_div_nm like = ?\n" + "and govofc_div_nm like = ?\n" + "and hgdept_div_nm like = ?\n"
             + "and dept_nm like = ?";
 
@@ -40,6 +40,7 @@ public class OrganizationDAO implements OrganizationDAOI {
     @Override
     public List<Organization> getAllOrganization(Class<Organization> organizationClass) {
         if (organizationClass.equals(DeptDiv.class)) {
+            // DeptDiv 부서구분 전체 가져오기
             try (Connection conn = ConnectionProvider.getJDBCConnection()) {
                 List<Organization> deptDivList = new ArrayList<>();
 
@@ -47,56 +48,66 @@ public class OrganizationDAO implements OrganizationDAOI {
                 ResultSet rs = pstmt.executeQuery();
 
                 while (rs.next()) {
-                    deptDivList.add(new DeptDiv(rs.getString("dept_div_nm"), rs.getString("dept_div_cd")));
+                    deptDivList.add(new DeptDiv(rs.getString("dept_div_cd"), rs.getString("dept_div_nm")));
                 }
+                pstmt.close();
                 rs.close();
                 return deptDivList;     // TODO 리턴 작성
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } else if (organizationClass.equals(GovofcDiv.class)) {
-            /**
-             * '관서' 카테고리에서 '전체'를 선택했을때, '실국'에 대해서 모든 list를 가져오는 내용
-             */
-            try (Connection conn = ConnectionProvider.getJDBCConnection()) {
-                ArrayList<Organization> hgdeptList = new ArrayList<>();
 
-                PreparedStatement pstmt = conn.prepareStatement("select * from public.\"OrganizationChart\"");
+        } else if (organizationClass.equals(GovofcDiv.class)) {
+            // GovofcDiv 관서 전체 가져오기
+            try (Connection conn = ConnectionProvider.getJDBCConnection()) {
+                List<Organization> govofcDivList = new ArrayList<>();
+
+                PreparedStatement pstmt = conn.prepareStatement("select * from \"GovofcDiv\"");
                 ResultSet rs = pstmt.executeQuery();
 
                 while (rs.next()) {
-                    String hgdeptCode = rs.getString("hgdept_div_cd");
-                    pstmt = conn
-                            .prepareStatement("select hgdept_div_nm from public.\"HgdeptDiv\" where hgdept_div_cd=?");
-                    pstmt.setString(1, hgdeptCode);
-                    rs = pstmt.executeQuery();
-                    String hgdeptName = rs.getString("hgdept_div_nm");
-                    hgdeptList.add(new HgdeptDiv(hgdeptCode, hgdeptName));
+                    govofcDivList.add(new GovofcDiv(rs.getString("govofc_div_cd"), rs.getString("govofc_div_nm")));
                 }
+                pstmt.close();
+                rs.close();
+                return govofcDivList;     // TODO 리턴 작성
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } else if (organizationClass.equals(HgdeptDiv.class)) {
-            /**
-             * '실국' 카테고리에서 '전체'를 선택했을때, '부서'에 대해서 모든 list를 가져오는 내용
-             */
+            // HgdeptDiv 실국 전체 가져오기
             try (Connection conn = ConnectionProvider.getJDBCConnection()) {
-                ArrayList<Organization> deptList = new ArrayList<>();
+                List<Organization> hgdeptDivList = new ArrayList<>();
 
-                PreparedStatement pstmt = conn.prepareStatement("select * from public.\"OrganizationChart\"");
+                PreparedStatement pstmt = conn.prepareStatement("select * from \"HgdeptDiv\"");
                 ResultSet rs = pstmt.executeQuery();
 
                 while (rs.next()) {
-                    String deptCode = rs.getString("dept_cd_nm");
-                    pstmt = conn.prepareStatement("select dept_nm from public.\"Dept\" where dept_cd_nm=?");
-                    pstmt.setString(1, deptCode);
-                    rs = pstmt.executeQuery();
-                    String deptName = rs.getString("dept_nm");
-                    deptList.add(new Dept(deptCode, deptName));
+                    hgdeptDivList.add(new HgdeptDiv(rs.getString("hgdept_div_cd"), rs.getString("hgdept_div_nm")));
                 }
+                pstmt.close();
+                rs.close();
+                return hgdeptDivList;     // TODO 리턴 작성
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        } else if (organizationClass.equals(Dept.class)) {
+                // Dept 부서 전체 가져오기
+                try (Connection conn = ConnectionProvider.getJDBCConnection()) {
+                    List<Organization> deptList = new ArrayList<>();
+    
+                    PreparedStatement pstmt = conn.prepareStatement("select * from \"Dept\"");
+                    ResultSet rs = pstmt.executeQuery();
+    
+                    while (rs.next()) {
+                        deptList.add(new Dept(rs.getString("dept_cd_nm"), rs.getString("dept_nm")));
+                    }
+                    pstmt.close();
+                    rs.close();
+                    return deptList;     // TODO 리턴 작성
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
         }
         return new ArrayList<>();
     }
@@ -143,5 +154,6 @@ public class OrganizationDAO implements OrganizationDAOI {
 
         return new ArrayList<>();
     }
+
 
 }

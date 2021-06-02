@@ -36,6 +36,13 @@ public class OrganizationTestDAO implements OrganizationDAOI{
         return list;
     }
 
+    @Override
+    public List<Organization> getChildrenOf(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv,
+            Organization dept) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     // @Override
     // public List<Organization> getChildrenOf(Organization organization) {
     //     List<Organization> list = new ArrayList<>();
@@ -89,12 +96,5 @@ public class OrganizationTestDAO implements OrganizationDAOI{
     //     }
     //     return list;
     // }
-
-    @Override
-    public List<Organization> getChildrenOf(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv,
-            Organization dept) {
-        // TODO Auto-generated method stub
-        return null;
-    }
     
 }
