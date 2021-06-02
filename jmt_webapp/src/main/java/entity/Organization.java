@@ -7,11 +7,11 @@ public abstract class Organization {
     /**
      * 조직 코드
      */
-    private String organizationCode;
+    protected String organizationCode;
     /**
      * 조직 이름
      */
-    private String organizationName;
+    protected String organizationName;
 
     protected Organization(String organizationCode, String organizationName) {
         this.organizationCode = organizationCode;

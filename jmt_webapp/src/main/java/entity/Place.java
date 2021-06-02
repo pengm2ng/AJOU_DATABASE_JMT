@@ -15,6 +15,9 @@ public class Place {
     private int likeCount;
 
     public Place(String bizNo, String placeName, int likeCount) {
+        if (bizNo.length() != 10) {
+            throw new IllegalArgumentException("BizNo length != 10");
+        }
         this.bizNo = bizNo;
         this.placeName = placeName;
         this.likeCount = likeCount;

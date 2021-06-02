@@ -21,7 +21,7 @@ try{
         String govofcDiv = request.getParameter("govofcDiv");
         String hgdeptDiv = request.getParameter("hgdeptDiv");
         String dept = request.getParameter("dept");
-        String startDate= null;
+        String startDate = null;
         String endDate = null;
         if(request.getParameter("startDate")==null){
              startDate = "";

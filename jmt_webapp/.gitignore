@@ -8,3 +8,5 @@
 *.http
 pk.txt
 kakaoKey.txt
+.idea
+*.iml
