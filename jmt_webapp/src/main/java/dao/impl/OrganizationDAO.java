@@ -140,7 +140,7 @@ public class OrganizationDAO implements OrganizationDAOI {
                 } else if (govofcDiv.getOrganizationName() == null) {
                     element = new GovofcDiv(rs.getString("govofc_div_cd"), rs.getString("govofc_div_nm"));
                 } else if (hgdeptDiv.getOrganizationName() == null) {
-                    element = new HgdeptDiv(rs.getString("hgdpet_div_cd"), rs.getString("hgdept_div_nm"));
+                    element = new HgdeptDiv(rs.getString("hgdept_div_cd"), rs.getString("hgdept_div_nm"));
                 } else if (dept.getOrganizationName() == null) {
                     element = new Dept(rs.getString("dept_nm_cd"), rs.getString("dept_nm"));
                 } else {
