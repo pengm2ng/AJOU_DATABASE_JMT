@@ -1,7 +1,13 @@
 package dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import dao.PlaceDAOI;
 import entity.Place;
+import jdbc.ConnectionProvider;
 
 public class PlaceDAO implements PlaceDAOI {
 
@@ -17,7 +23,15 @@ public class PlaceDAO implements PlaceDAOI {
 
     @Override
     public void updateLikeCount(Place place) {
-        // TODO Auto-generated method stub
+
+        try (Connection conn = ConnectionProvider.getJDBCConnection()) {
+            PreparedStatement pstmt = conn.prepareStatement(
+                "update \"ExpendtrTotalExcut\" set like_count=like_count+1 where place_nm='?';");
+            pstmt.setString(1, "");
+            ResultSet rs = pstmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
