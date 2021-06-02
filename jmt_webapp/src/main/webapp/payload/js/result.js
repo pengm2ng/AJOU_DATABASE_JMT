@@ -47,33 +47,28 @@ function loadPlace(placeHTML) {
                     placeElement.getElementsByClassName("placeName")[0].textContent = restaurant["placeName"];
                     placeElement.getElementsByClassName("placeLocation")[0].textContent = "주소  "+restaurant["address"];
                     placeElement.getElementsByClassName("totalAmt")[0].textContent = "총 지출 금액  "+restaurant["totalAmount"];
-                    placeElement.getElementsByClassName("likeCount")[0].textContent = "추천수  "+restaurant["likeCount"]+"👍";
+                    if (jmtCookieIncludes(restaurant["bizNumber"])) {
+                        placeElement.getElementsByClassName("likeCount")[0].textContent = "추천수  "+restaurant["likeCount"]+"👍 💗"
+                    } else {
+                        placeElement.getElementsByClassName("likeCount")[0].textContent = "추천수  "+restaurant["likeCount"]+"👍";
+                    }
                     placeElement.getElementsByClassName("placeCategory")[0].textContent = restaurant["category"];
-                    placeElement.getElementsByClassName("likePlaceButton")[0].setAttribute("itemid", restaurant["bizNumber"]);
+                    placeElement.getElementsByClassName("likePlaceButton")[0].setAttribute("bizNo", restaurant["bizNumber"]);
                     placeElement.getElementsByClassName("likePlaceButton")[0].onclick = function (ev) {
-                        var cookie = document.cookie.match(new RegExp(
-                            "(?:^|; )" + "JMTRecom".replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-                        ));
-                        cookie = cookie ? decodeURIComponent(cookie[1]) : undefined;
-                        var cookieJSON;
-                        if (cookie === undefined) {
-                            cookieJSON = JSON.parse("{\"bizNo\": []}");
-                        } else {
-                            cookieJSON = JSON.parse(cookie);
-                        }
 
-                        var bizNo = ev.target.getAttribute("itemid");
-                        if (cookieJSON["bizNo"].includes(bizNo)) {
+                        var bizNo = ev.target.getAttribute("bizNo");
+                        if (jmtCookieIncludes(bizNo)) {
                             // 이미 추천 함
                             document.getElementById("alreadyRecommendedModal").style.display = "block";
                         } else {
                             var xhrI = new XMLHttpRequest();
                             xhrI.onload = function () {
                                 if (this.readyState === 4 && this.status === 200) {
-                                    cookieJSON["bizNo"].push(bizNo);
-                                    document.cookie = "JMTRecom="+JSON.stringify(cookieJSON);
+                                    pushToJMT(bizNo);
                                     // 추천완료 모달창
                                     document.getElementById("recommendSuccessModal").style.display = "block";
+                                    var likeCount = placeElement.getElementsByClassName("likeCount")[0];
+                                    likeCount.textContent = "추천수  " + (parseInt(restaurant["likeCount"])+1) + "👍 💗";
                                 }
                             };
                             xhrI.open("GET", "http://lanihome.iptime.org:8080/restful/set/recommendation?bizNo="+bizNo, true);
@@ -111,7 +106,39 @@ function initModalButton() {
     }
 }
 
-function delRecomCookie() {
+function jmtCookieIncludes(cookieKey) {
+    var cookieStr = document.cookie.match(new RegExp(
+        "(?:^|; )" + "JMTRecom".replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    cookieStr = cookieStr ? decodeURIComponent(cookieStr[1]) : undefined;
+    var cookieJSON;
+    if (cookieStr === undefined) {
+        return false;
+    } else {
+        cookieJSON = JSON.parse(cookieStr);
+    }
+    return cookieJSON["bizNo"].includes(cookieKey);
+}
+
+function pushToJMT(key) {
+    var cookieStr = document.cookie.match(new RegExp(
+        "(?:^|; )" + "JMTRecom".replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    cookieStr = cookieStr ? decodeURIComponent(cookieStr[1]) : undefined;
+    var cookieJSON;
+    if (cookieStr === undefined) {
+        cookieJSON = JSON.parse("{\"bizNo\": []}");
+    } else {
+        cookieJSON = JSON.parse(cookieStr);
+    }
+    cookieJSON["bizNo"].push(key);
+    document.cookie = "JMTRecom="+JSON.stringify(cookieJSON);
+}
+
+/**
+ * JMT 쿠키 제거
+ */
+function removeCookie() {
     document.cookie = "JMTRecom = {\"bizNo\": []}";
 }
 
