@@ -27,8 +27,7 @@
             Organization organizationDeptDiv;
             Organization organizationHgdeptDiv;
 
-            if (request.getParameter("deptDiv") == null) {
-                 deptDiv = "";
+            if (request.getParameter("deptDiv").isEmpty()) {
                organizationDeptDiv = new DeptDiv(null, null);
 
             } else {
@@ -38,8 +37,8 @@
 
             }
 
-            if (request.getParameter("govofcDiv") == null) {
-                 govofcDiv = "";
+            if (request.getParameter("govofcDiv").isEmpty()) {
+
                 organizationGovofcDiv = new GovofcDiv(null, null);
             } else {
                  govofcDiv = request.getParameter("govofcDiv");
@@ -47,16 +46,14 @@
             }
 
 
-            if (request.getParameter("hgdeptDiv") == null) {
-                 hgdeptDiv = "";
+            if (request.getParameter("hgdeptDiv").isEmpty()) {
                 organizationHgdeptDiv = new HgdeptDiv(null, null);
             } else {
                  hgdeptDiv = request.getParameter("hgdeptDiv");
                organizationHgdeptDiv = new HgdeptDiv(null, hgdeptDiv);
             }
 
-            if (request.getParameter("dept") == null) {
-                 dept = "";
+            if (request.getParameter("dept").isEmpty()) {
                 organizationDept = new Dept(null, null);
             } else {
                 dept = request.getParameter("dept");
@@ -67,7 +64,7 @@
             JSONArray jsonArray = new JSONArray();
             JSONObject jsonObject = new JSONObject();
 
-            if (deptDiv.equals("")) {
+            if (deptDiv.isEmpty()) {
 
                 list = OrganizationDAO.getInstance()
                         .getAllOrganization((Class<Organization>) organizationDeptDiv.getClass());
@@ -80,9 +77,9 @@
 
                 System.out.println(jsonObject.toJSONString());
 
-            } else if (deptDiv != "") {
+            } else {
 
-                if (govofcDiv == "") {
+                if (govofcDiv.isEmpty()) {
 
                     list = OrganizationDAO.getInstance().getChildrenOf(organizationDeptDiv,organizationGovofcDiv,organizationHgdeptDiv,organizationDept);
                     for (int i = 0; i < list.size(); i++) {
@@ -93,9 +90,9 @@
 
                     System.out.println(jsonObject.toJSONString());
 
-                } else if (govofcDiv != "") {
+                } else {
 
-                    if (hgdeptDiv == "") {
+                    if (hgdeptDiv.isEmpty()) {
 
                         list = OrganizationDAO.getInstance().getChildrenOf(organizationDeptDiv,organizationGovofcDiv,organizationHgdeptDiv,organizationDept);
                         for (int i = 0; i < list.size(); i++) {
@@ -105,7 +102,7 @@
                         jsonObject.put("hgdeptDiv", jsonArray);
 
                         System.out.println(jsonObject.toJSONString());
-                    } else if (hgdeptDiv != "") {
+                    } else  {
 
                         list = OrganizationDAO.getInstance().getChildrenOf(organizationDeptDiv,organizationGovofcDiv,organizationHgdeptDiv,organizationDept);
                         for (int i = 0; i < list.size(); i++) {
