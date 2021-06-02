@@ -43,7 +43,7 @@ public class OrganizationDAO implements OrganizationDAOI {
                 while (rs.next()) {
                     String govofcDivCode = rs.getString("Govofc_div_cd");
                     pstmt = conn
-                            .prepareStatement("select govofc_div_nm from public.\"GovofcDiv\" where govofc_div_cd='?'");
+                            .prepareStatement("select govofc_div_nm from public.\"GovofcDiv\" where govofc_div_cd=?");
                     pstmt.setString(1, govofcDivCode);
                     rs = pstmt.executeQuery();
                     String govofcDivName = rs.getString("Govofc_div_nm");
@@ -65,7 +65,7 @@ public class OrganizationDAO implements OrganizationDAOI {
                 while (rs.next()) {
                     String hgdeptCode = rs.getString("hgdept_div_cd");
                     pstmt = conn
-                            .prepareStatement("select hgdept_div_nm from public.\"HgdeptDiv\" where hgdept_div_cd='?'");
+                            .prepareStatement("select hgdept_div_nm from public.\"HgdeptDiv\" where hgdept_div_cd=?");
                     pstmt.setString(1, hgdeptCode);
                     rs = pstmt.executeQuery();
                     String hgdeptName = rs.getString("hgdept_div_nm");
@@ -86,7 +86,7 @@ public class OrganizationDAO implements OrganizationDAOI {
 
                 while (rs.next()) {
                     String deptCode = rs.getString("dept_cd_nm");
-                    pstmt = conn.prepareStatement("select dept_nm from public.\"Dept\" where dept_cd_nm='?'");
+                    pstmt = conn.prepareStatement("select dept_nm from public.\"Dept\" where dept_cd_nm=?");
                     pstmt.setString(1, deptCode);
                     rs = pstmt.executeQuery();
                     String deptName = rs.getString("dept_nm");
@@ -108,14 +108,14 @@ public class OrganizationDAO implements OrganizationDAOI {
             ArrayList<Organization> govofcList = new ArrayList<Organization>();
             try (Connection conn = ConnectionProvider.getJDBCConnection()) {
                 PreparedStatement pstmt = conn.prepareStatement(
-                        "select Govofc_div_cd from public.\"OrganizationChart\" where dept_div_cd='?'");
+                        "select Govofc_div_cd from public.\"OrganizationChart\" where dept_div_cd=?");
                 pstmt.setString(1, organization.getOrganizationCode());
                 ResultSet rs = pstmt.executeQuery();
 
                 while (rs.next()) {
                     String govofcDivCode = rs.getString("Govofc_div_cd");
                     pstmt = conn
-                            .prepareStatement("select govofc_div_nm from public.\"GovofcDiv\" where govofc_div_cd='?'");
+                            .prepareStatement("select govofc_div_nm from public.\"GovofcDiv\" where govofc_div_cd=?");
                     pstmt.setString(1, govofcDivCode);
                     rs = pstmt.executeQuery();
                     String govofcDivName = rs.getString("Govofc_div_nm");
@@ -132,14 +132,14 @@ public class OrganizationDAO implements OrganizationDAOI {
                 ArrayList<Organization> hgdeptList = new ArrayList<>();
 
                 PreparedStatement pstmt = conn.prepareStatement(
-                        "select hgdept_div_cd from public.\"OrganizationChart\" where govofc_div_cd='?'");
+                        "select hgdept_div_cd from public.\"OrganizationChart\" where govofc_div_cd=?");
                 pstmt.setString(1, organization.getOrganizationCode());
                 ResultSet rs = pstmt.executeQuery();
 
                 while (rs.next()) {
                     String hgdeptCode = rs.getString("hgdept_div_cd");
                     pstmt = conn
-                            .prepareStatement("select hgdept_div_nm from public.\"HgdeptDiv\" where hgdept_div_cd='?'");
+                            .prepareStatement("select hgdept_div_nm from public.\"HgdeptDiv\" where hgdept_div_cd=?");
                     pstmt.setString(1, hgdeptCode);
                     rs = pstmt.executeQuery();
                     String hgdeptName = rs.getString("hgdept_div_nm");
@@ -156,12 +156,12 @@ public class OrganizationDAO implements OrganizationDAOI {
                 ArrayList<Organization> deptList = new ArrayList<>();
 
                 PreparedStatement pstmt = conn.prepareStatement(
-                        "select dept_cd_nm from public.\"OrganizationChart\" where hgdept_div_cd='?'");
+                        "select dept_cd_nm from public.\"OrganizationChart\" where hgdept_div_cd=?");
                 ResultSet rs = pstmt.executeQuery();
 
                 while (rs.next()) {
                     String deptCode = rs.getString("dept_cd_nm");
-                    pstmt = conn.prepareStatement("select dept_nm from public.\"Dept\" where dept_cd_nm='?'");
+                    pstmt = conn.prepareStatement("select dept_nm from public.\"Dept\" where dept_cd_nm=?");
                     pstmt.setString(1, deptCode);
                     rs = pstmt.executeQuery();
                     String deptName = rs.getString("dept_nm");
