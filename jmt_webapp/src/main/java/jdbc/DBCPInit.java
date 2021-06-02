@@ -18,9 +18,7 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 public class DBCPInit extends HttpServlet {
-    // TODO web.xml 해결해야함.
-
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     public DBCPInit() {
         super();
@@ -32,21 +30,21 @@ public class DBCPInit extends HttpServlet {
         initConnectionPool();
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void initConnectionPool() {
 
         try {
-			File file = new File("../webapps/ROOT/WEB-INF/resources/pk.txt");
-			FileInputStream is = new FileInputStream(file);
-			InputStreamReader isr = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(isr);
+            File file = new File("../webapps/ROOT/WEB-INF/resources/pk.txt");
+            FileInputStream is = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
             String jdbcUrl = br.readLine();
             String username = "pi";
             String pw = br.readLine();
-			br.close();
-			is.close();
-			isr.close();
-
+            br.close();
+            is.close();
+            isr.close();
+            Class.forName("org.postgresql.Driver");
             ConnectionFactory connFactory = new DriverManagerConnectionFactory(jdbcUrl, username, pw);
             PoolableConnectionFactory poolableConnFactory = new PoolableConnectionFactory(connFactory, null);
             poolableConnFactory.setValidationQuery("select 1");
@@ -57,8 +55,8 @@ public class DBCPInit extends HttpServlet {
             poolConfig.setMinIdle(4);
             poolConfig.setMaxTotal(50);
 
-            GenericObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<PoolableConnection>(
-                    poolableConnFactory, poolConfig);
+            GenericObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(poolableConnFactory,
+                    poolConfig);
             poolableConnFactory.setPool(connectionPool);
 
             Class.forName("org.apache.commons.dbcp2.PoolingDriver");
