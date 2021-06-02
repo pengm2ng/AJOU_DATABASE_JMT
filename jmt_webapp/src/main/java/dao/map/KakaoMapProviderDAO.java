@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,19 +32,15 @@ public class KakaoMapProviderDAO {
     }
 
     public List<String> findPlace(String placeName) {
-        
-        try {
-            
-            File file = new File("../webapps/ROOT/WEB-INF/resources/kakaoKey.txt");
-            BufferedReader inFiles
-            
-            = new BufferedReader(new InputStreamReader(new FileInputStream(file.getAbsolutePath()), "UTF8"));
+
+        var file = new File("../webapps/ROOT/WEB-INF/resources/kakaoKey.txt");
+        try (var inFiles = new BufferedReader(
+                new InputStreamReader(new FileInputStream(file.getAbsolutePath()), "UTF8"));) {
+
 
             String key = inFiles.readLine();
-            inFiles.close();
-            URL url = new URL("https://dapi.kakao.com/v2/local/search/keyword.json?page=1&size=1&sort=accuracy&query="
+            var url = new URL("https://dapi.kakao.com/v2/local/search/keyword.json?page=1&size=1&sort=accuracy&query="
                     + URLEncoder.encode(placeName, "utf-8"));
-            System.out.println(url.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Authorization", key);
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -59,13 +55,13 @@ public class KakaoMapProviderDAO {
             System.out.println(conn.getResponseCode());
             if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 // Stream을 처리해줘야 하는 귀찮음이 있음.
-                BufferedReader br2 = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+                var br2 = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
                 String line;
                 while ((line = br2.readLine()) != null) {
                     sb.append(line).append("\n");
                 }
                 br2.close();
-                System.out.println("" + sb.toString());
+                System.out.println(sb.toString());
             } else {
                 System.out.println(conn.getResponseMessage());
             }
@@ -74,7 +70,7 @@ public class KakaoMapProviderDAO {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(sb.toString());
             JSONArray jsonArray = (JSONArray) jsonObject.get("documents");
             JSONObject jsonObject2 = (JSONObject) jsonArray.get(0);
-            List<String> list = new ArrayList<String>();
+            List<String> list = new ArrayList<>();
 
             String[] array = jsonObject2.get("category_name").toString().split("> ");
 
@@ -85,17 +81,17 @@ public class KakaoMapProviderDAO {
             conn.disconnect();
             return list;
         } catch (UnsupportedEncodingException e) {
-            
+
             e.printStackTrace();
         } catch (IOException e) {
-            
+
             e.printStackTrace();
         } catch (ParseException e) {
-            
+
             e.printStackTrace();
         }
 
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
 }

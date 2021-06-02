@@ -1,6 +1,5 @@
 import static org.junit.Assert.assertEquals;
 
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Test;
 
 import entity.DeptDiv;
