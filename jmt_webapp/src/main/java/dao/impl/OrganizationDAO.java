@@ -135,13 +135,13 @@ public class OrganizationDAO implements OrganizationDAOI {
 
             while (rs.next()) {
                 Organization element = null;
-                if (deptDiv == null) {
+                if (deptDiv.getOrganizationName() == null) {
                     throw new RuntimeException("Invalid Parameter");
-                } else if (govofcDiv == null) {
+                } else if (govofcDiv.getOrganizationName() == null) {
                     element = new GovofcDiv(rs.getString("govofc_div_cd"), rs.getString("govofc_div_nm"));
-                } else if (hgdeptDiv == null) {
+                } else if (hgdeptDiv.getOrganizationName() == null) {
                     element = new HgdeptDiv(rs.getString("hgdpet_div_cd"), rs.getString("hgdept_div_nm"));
-                } else if (dept == null) {
+                } else if (dept.getOrganizationName() == null) {
                     element = new Dept(rs.getString("dept_nm_cd"), rs.getString("dept_nm"));
                 } else {
                     throw new RuntimeException("Invalid Parameter");
