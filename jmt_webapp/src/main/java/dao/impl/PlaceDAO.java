@@ -31,6 +31,7 @@ public class PlaceDAO implements PlaceDAOI {
                 "update \"ExpendtrTotalExcut\" set like_count = like_count + 1 where biz_no = ?");
             pstmt.setString(1, place.getBizNo());
             pstmt.executeUpdate();
+            pstmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

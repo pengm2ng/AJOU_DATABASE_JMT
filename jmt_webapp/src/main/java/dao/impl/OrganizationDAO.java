@@ -52,7 +52,7 @@ public class OrganizationDAO implements OrganizationDAOI {
                 }
                 pstmt.close();
                 rs.close();
-                return deptDivList;     // TODO 리턴 작성
+                return deptDivList;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -70,7 +70,7 @@ public class OrganizationDAO implements OrganizationDAOI {
                 }
                 pstmt.close();
                 rs.close();
-                return govofcDivList;     // TODO 리턴 작성
+                return govofcDivList;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -87,7 +87,7 @@ public class OrganizationDAO implements OrganizationDAOI {
                 }
                 pstmt.close();
                 rs.close();
-                return hgdeptDivList;     // TODO 리턴 작성
+                return hgdeptDivList;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -104,7 +104,7 @@ public class OrganizationDAO implements OrganizationDAOI {
                     }
                     pstmt.close();
                     rs.close();
-                    return deptList;     // TODO 리턴 작성
+                    return deptList;
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
