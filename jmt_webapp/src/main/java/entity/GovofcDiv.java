@@ -11,5 +11,4 @@ public class GovofcDiv extends Organization {
             throw new IllegalArgumentException();
         }
     }
-    
 }

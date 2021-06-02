@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import dao.OrganizationDAOI;
@@ -17,16 +16,14 @@ import entity.Organization;
 import jdbc.ConnectionProvider;
 
 public class OrganizationDAO implements OrganizationDAOI {
-    private static final String ORGANIZATION_QUERY = "select dept_div_nm, govofc_div_nm, hgdept_div_nm, dept_nm\n"
+    private static final String ORGANIZATION_QUERY = "select dept_div_nm,\n" + "DD.dept_div_cd,\n" + "govofc_div_nm,\n"
+            + "GD.govofc_div_cd,\n" + "hgdept_div_nm,\n" + "HD.hgdept_div_cd,\n" + "dept_nm,\n" + "D.dept_cd_nm\n"
             + "from \"OrganizationChart\"\n"
-            +     "join \"DeptDiv\" DD on DD.dept_div_cd = \"OrganizationChart\".dept_div_cd\n"
-            +     "join \"GovofcDiv\" GD on GD.govofc_div_cd = \"OrganizationChart\".govofc_div_cd\n"
-            +     "join \"HgdeptDiv\" HD on HD.hgdept_div_cd = \"OrganizationChart\".hgdept_div_cd\n"
-            +     "join \"Dept\" D on D.dept_cd_nm = \"OrganizationChart\".dept_cd_nm\n"
-            + "where dept_div_nm like ?\n"
-            + "and govofc_div_nm like ?\n"
-            + "and hgdept_div_nm like ?\n"
-            + "and dept_nm like ?";
+            + "join \"DeptDiv\" DD on DD.dept_div_cd = \"OrganizationChart\".dept_div_cd\n"
+            + "join \"GovofcDiv\" GD on GD.govofc_div_cd = \"OrganizationChart\".govofc_div_cd\n"
+            + "join \"HgdeptDiv\" HD on HD.hgdept_div_cd = \"OrganizationChart\".hgdept_div_cd\n"
+            + "join \"Dept\" D on D.dept_cd_nm = \"OrganizationChart\".dept_cd_nm\n" + "where dept_div_nm like ?\n"
+            + "  and govofc_div_nm like ?\n" + "  and hgdept_div_nm like ?\n" + "  and dept_nm like ?";
 
     private OrganizationDAO() {
     }
@@ -40,7 +37,7 @@ public class OrganizationDAO implements OrganizationDAOI {
     }
 
     @Override
-    public List<Organization> getAllOrganization(Class<Organization> organizationClass) {
+    public List<Organization> getAllOrganization(Class<? extends Organization> organizationClass) {
         if (organizationClass.equals(DeptDiv.class)) {
             // DeptDiv 부서구분 전체 가져오기
             try (Connection conn = ConnectionProvider.getJDBCConnection()) {
@@ -94,22 +91,22 @@ public class OrganizationDAO implements OrganizationDAOI {
                 e.printStackTrace();
             }
         } else if (organizationClass.equals(Dept.class)) {
-                // Dept 부서 전체 가져오기
-                try (Connection conn = ConnectionProvider.getJDBCConnection()) {
-                    List<Organization> deptList = new ArrayList<>();
-    
-                    PreparedStatement pstmt = conn.prepareStatement("select * from \"Dept\"");
-                    ResultSet rs = pstmt.executeQuery();
-    
-                    while (rs.next()) {
-                        deptList.add(new Dept(rs.getString("dept_cd_nm"), rs.getString("dept_nm")));
-                    }
-                    pstmt.close();
-                    rs.close();
-                    return deptList;
-                } catch (SQLException e) {
-                    e.printStackTrace();
+            // Dept 부서 전체 가져오기
+            try (Connection conn = ConnectionProvider.getJDBCConnection()) {
+                List<Organization> deptList = new ArrayList<>();
+
+                PreparedStatement pstmt = conn.prepareStatement("select * from \"Dept\"");
+                ResultSet rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    deptList.add(new Dept(rs.getString("dept_cd_nm"), rs.getString("dept_nm")));
                 }
+                pstmt.close();
+                rs.close();
+                return deptList;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return new ArrayList<>();
     }
@@ -135,14 +132,23 @@ public class OrganizationDAO implements OrganizationDAOI {
 
             while (rs.next()) {
                 Organization element = null;
-                if (deptDiv.getOrganizationName() == null) {
+                if (deptDiv == null) {
                     throw new RuntimeException("Invalid Parameter");
-                } else if (govofcDiv.getOrganizationName() == null) {
+                } else if (govofcDiv == null) {
                     element = new GovofcDiv(rs.getString("govofc_div_cd"), rs.getString("govofc_div_nm"));
-                } else if (hgdeptDiv.getOrganizationName() == null) {
+                    if (children.contains(element)) {
+                        continue;
+                    }
+                } else if (hgdeptDiv == null) {
                     element = new HgdeptDiv(rs.getString("hgdept_div_cd"), rs.getString("hgdept_div_nm"));
-                } else if (dept.getOrganizationName() == null) {
-                    element = new Dept(rs.getString("dept_nm_cd"), rs.getString("dept_nm"));
+                    if (children.contains(element)) {
+                        continue;
+                    }
+                } else if (dept == null) {
+                    element = new Dept(rs.getString("dept_cd_nm"), rs.getString("dept_nm"));
+                    if (children.contains(element)) {
+                        continue;
+                    }
                 } else {
                     throw new RuntimeException("Invalid Parameter");
                 }
@@ -156,6 +162,5 @@ public class OrganizationDAO implements OrganizationDAOI {
 
         return new ArrayList<>();
     }
-
 
 }

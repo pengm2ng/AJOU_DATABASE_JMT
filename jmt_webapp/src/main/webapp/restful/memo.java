@@ -7,48 +7,110 @@ import dao.impl.OrganizationDAO;
 import entity.Organization;
 
 public class memo {
-    @Test
     public void test() {
-        String deptDiv = request.getParameter("deptDiv");
-        String govofcDiv = request.getParameter("govofcDiv");
-        String hgdeptDiv = request.getParameter("hgdeptDiv");
-        String dept = request.getParameter("dept");
-        String startDate = request.getParameter("startDate");
-        String endDate = request.getParameter("endDate");
+        try {
+            // 상위개념이 선택되었을 때, 카테고리 선택
+            // 상위가 null 이면 하위도 무조건 null
+            String deptDiv = null;
+            String govofcDiv = null;
+            String hgdeptDiv = null;
+            String dept = null;
+            Organization organizationDept = null;
+            Organization organizationGovofcDiv = null;
+            Organization organizationDeptDiv = null;
+            Organization organizationHgdeptDiv = null;
 
-        Organization organizationDeptDiv = new DeptDiv(null, deptDiv);
-        Organization organizationGovofcDiv = new GovofcDiv(null, govofcDiv);
-        Organization organizationHgdeptDiv = new HgdeptDiv(null, hgdeptDiv);
-        Organization organizationDept = new Dept(null, dept);
+            if (request.getParameter("deptDiv") == null || request.getParameter("deptDiv").isEmpty()) {
+                organizationDeptDiv = null;
 
-        if (startDate.length() == 0 && endDate.length() == 0) {
-            List<ExpendtrExcut> list = ExpendtrExcutDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
-                    organizationGovofcDiv, organizationHgdeptDiv, organizationDept);
-            // json으로 변환
+            } else {
+                deptDiv = request.getParameter("deptDiv");
+                organizationDeptDiv = new DeptDiv(null, deptDiv);
+            }
 
-        } else {
-            Date date1 = Date.valueOf(startDate);
-            Date date2 = Date.valueOf(endDate);
-            List<ExpendtrExcut> list = ExpendtrExcutDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
-                    organizationGovofcDiv, organizationHgdeptDiv, organizationDept, date1, date2);
-            // json으로 변환
+            if (request.getParameter("govofcDiv") == null || request.getParameter("govofcDiv").isEmpty()) {
 
-        }
+                organizationGovofcDiv = null;
+            } else {
+                govofcDiv = request.getParameter("govofcDiv");
+                organizationGovofcDiv = new GovofcDiv(null, govofcDiv);
+            }
 
-        JSONArray jsonArray = new JSONArray();
-        JSONObject restaurantJsonObject = new JSONObject();
+            if (request.getParameter("hgdeptDiv") == null || request.getParameter("hgdeptDiv").isEmpty()) {
+                organizationHgdeptDiv = null;
+            } else {
+                hgdeptDiv = request.getParameter("hgdeptDiv");
+                organizationHgdeptDiv = new HgdeptDiv(null, hgdeptDiv);
+            }
 
-        for (int i = 0; i < list.size(); i++) {
+            if (request.getParameter("dept") == null || request.getParameter("dept").isEmpty()) {
+                organizationDept = null;
+            } else {
+                dept = request.getParameter("dept");
+                organizationDept = new Dept(null, dept);
+            }
 
+            List<Organization> list = null;
+            JSONArray jsonArray = new JSONArray();
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("placeName", ((Place) ((ExpendtrExcut) list.get(i)).getPlace()).getPlaceName);
-            jsonObject.put("bizNumber", ((Place) ((ExpendtrExcut) list.get(i)).getPlace()).getBizNo());
-            jsonObject.put("likeCount", ((Place) ((ExpendtrExcut) list.get(i)).getPlace()).getLikeCount());
-            jsonArray.add(jsonObject);
+
+            if (deptDiv == null || deptDiv.isEmpty()) {
+
+                list = OrganizationDAO.getInstance()
+                        .getAllOrganization((Class<Organization>) organizationDeptDiv.getClass());
+
+                for (int i = 0; i < list.size(); i++) {
+                    jsonArray.add((list.get(i)).getOrganizationName());
+                }
+
+                jsonObject.put("deptDiv", jsonArray);
+
+                System.out.println(jsonObject.toJSONString());
+
+            } else {
+
+                if (govofcDiv == null || govofcDiv.isEmpty()) {
+
+                    list = OrganizationDAO.getInstance().getChildrenOf(organizationDeptDiv, organizationGovofcDiv,
+                            organizationHgdeptDiv, organizationDept);
+                    for (int i = 0; i < list.size(); i++) {
+                        jsonArray.add((list.get(i)).getOrganizationName());
+                    }
+
+                    jsonObject.put("govofcDiv", jsonArray);
+
+                    System.out.println(jsonObject.toJSONString());
+
+                } else {
+
+                    if (hgdeptDiv == null || hgdeptDiv.isEmpty()) {
+
+                        list = OrganizationDAO.getInstance().getChildrenOf(organizationDeptDiv, organizationGovofcDiv,
+                                organizationHgdeptDiv, organizationDept);
+                        for (int i = 0; i < list.size(); i++) {
+                            jsonArray.add((list.get(i)).getOrganizationName());
+                        }
+
+                        jsonObject.put("hgdeptDiv", jsonArray);
+
+                        System.out.println(jsonObject.toJSONString());
+                    } else {
+
+                        list = OrganizationDAO.getInstance().getChildrenOf(organizationDeptDiv, organizationGovofcDiv,
+                                organizationHgdeptDiv, organizationDept);
+                        for (int i = 0; i < list.size(); i++) {
+                            jsonArray.add((list.get(i)).getOrganizationName());
+                        }
+                        jsonObject.put("dept", jsonArray);
+                        System.out.println(jsonObject.toJSONString());
+                    }
+                }
+            }
+
+            out.print(jsonObject.toJSONString());
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
-
-        restaurantJsonObject.put("restaurant", jsonArray);
-        System.out.println(restaurantJsonObject.toJSONString());
-
     }
 }
