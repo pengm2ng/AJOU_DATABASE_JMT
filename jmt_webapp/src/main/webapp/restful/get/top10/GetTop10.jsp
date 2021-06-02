@@ -44,22 +44,22 @@ try{
         if (startDate !="" && endDate != "") {
             Date date1 = Date.valueOf(startDate);
             Date date2 = Date.valueOf(endDate);
-            list = ExpendtrExcutTestDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
+            list = ExpendtrExcutDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
                     organizationGovofcDiv, organizationHgdeptDiv, organizationDept, date1, date2);
             // json으로 변환
         } else if(startDate == "" && endDate == ""){
-             list = ExpendtrExcutTestDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
+             list = ExpendtrExcutDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
                     organizationGovofcDiv, organizationHgdeptDiv, organizationDept);
 
         }else if(startDate != "" && endDate == ""){
             Date date1 = Date.valueOf(startDate);
 
-             list = ExpendtrExcutTestDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
+             list = ExpendtrExcutDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
                     organizationGovofcDiv, organizationHgdeptDiv, organizationDept,date1,null);
         }else if(startDate == "" && endDate != ""){
             Date date2 = Date.valueOf(endDate);
-               // TODO Test코드
-             list = ExpendtrExcutTestDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
+            
+             list = ExpendtrExcutDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
                     organizationGovofcDiv, organizationHgdeptDiv, organizationDept,null,date2);
         }
         JSONArray jsonArray = new JSONArray();

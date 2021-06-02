@@ -73,7 +73,7 @@ try{
 
         if (deptDiv.equals("")) {
 
-            list = OrganizationTestDAO.getInstance()
+            list = OrganizationDAO.getInstance()
                     .getAllOrganization((Class<Organization>) organizationDeptDiv.getClass());
 
             for (int i = 0; i < list.size(); i++) {
@@ -88,7 +88,7 @@ try{
 
             if (govofcDiv == "") {
 
-                list = OrganizationTestDAO.getInstance().getChildrenOf(organizationDeptDiv,organizationGovofcDiv,organizationHgdeptDiv,organizationDept);
+                list = OrganizationDAO.getInstance().getChildrenOf(organizationDeptDiv,organizationGovofcDiv,organizationHgdeptDiv,organizationDept);
                 for (int i = 0; i < list.size(); i++) {
                     jsonArray.add((list.get(i)).getOrganizationName());
                 }
@@ -101,7 +101,7 @@ try{
 
                 if (hgdeptDiv == "") {
 
-                    list = OrganizationTestDAO.getInstance().getChildrenOf(organizationDeptDiv,organizationGovofcDiv,organizationHgdeptDiv,organizationDept);
+                    list = OrganizationDAO.getInstance().getChildrenOf(organizationDeptDiv,organizationGovofcDiv,organizationHgdeptDiv,organizationDept);
                     for (int i = 0; i < list.size(); i++) {
                         jsonArray.add((list.get(i)).getOrganizationName());
                     }
@@ -111,7 +111,7 @@ try{
                     System.out.println(jsonObject.toJSONString());
                 } else if (hgdeptDiv != "") {
 
-                    list = OrganizationTestDAO.getInstance().getChildrenOf(organizationDeptDiv,organizationGovofcDiv,organizationHgdeptDiv,organizationDept);
+                    list = OrganizationDAO.getInstance().getChildrenOf(organizationDeptDiv,organizationGovofcDiv,organizationHgdeptDiv,organizationDept);
                     for (int i = 0; i < list.size(); i++) {
                         jsonArray.add((list.get(i)).getOrganizationName());
                     }
