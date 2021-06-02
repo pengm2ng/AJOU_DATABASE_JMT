@@ -22,7 +22,7 @@ public class OrganizationTestDAO implements OrganizationDAOI{
     }
 
     @Override
-    public List<Organization> getAllOrganization(Class<Organization> organizationClass) {
+    public List<Organization> getAllOrganization(Class<? extends Organization> organizationClass) {
             List<Organization> list = new ArrayList<>();
         
             System.out.println("올 부서");

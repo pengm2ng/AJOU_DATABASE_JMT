@@ -11,7 +11,7 @@ public interface OrganizationDAOI {
      * @param organizationClass 불러올 조직의 클래스
      * @return
      */
-    public List<Organization> getAllOrganization(Class<Organization> organizationClass);
+    public List<Organization> getAllOrganization(Class<? extends Organization> organizationClass);
 
     /**
      * 해당 조직의 하위 조직 불러오기

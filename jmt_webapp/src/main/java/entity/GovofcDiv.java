@@ -7,9 +7,8 @@ public class GovofcDiv extends Organization {
 
     public GovofcDiv(String organizationCode, String organizationName) {
         super(organizationCode, organizationName);
-        if (super.organizationCode.length() != 4) {
+        if (super.organizationCode != null && super.organizationCode.length() != 4) {
             throw new IllegalArgumentException();
         }
     }
-    
 }
