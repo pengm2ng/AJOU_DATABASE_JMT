@@ -74,7 +74,7 @@ public class KakaoMapProviderDAO {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(sb.toString());
             JSONArray jsonArray = (JSONArray) jsonObject.get("documents");
             JSONObject jsonObject2 = (JSONObject) jsonArray.get(0);
-            List<String> list = new ArrayList();
+            List<String> list = new ArrayList<String>();
 
             String[] array = jsonObject2.get("category_name").toString().split("> ");
 
@@ -85,17 +85,17 @@ public class KakaoMapProviderDAO {
             conn.disconnect();
             return list;
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
         }
 
-        return null;
+        return new ArrayList<String>();
     }
 
 }

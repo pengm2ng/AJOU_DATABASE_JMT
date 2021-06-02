@@ -67,12 +67,12 @@ public class ExpendtrExcutDAO implements ExpendtrExcutI {
         //     pstmt.setDate(2, new Date(2021, 1, 5));
         //     ResultSet rs = pstmt.executeQuery();
 
-        //     var place = new Place(rs.get, rs.get, 0)
+        //     Place place = new Place(rs.get, rs.get, 0)
 
         //     while (rs.next()) {
         //         Organization deptDivTemp = new DeptDiv(rs.getString(1), rs.getString(2));
         //         Organization govoTemp = new GovofcDiv(rs.getString(3), rs.getString(4));
-        //         var expTemp = new ExpendtrExcut(deptDivTemp, govoTemp, hgdeptDiv, dept, null, 0, null);
+        //         ExpendtrExcut expTemp = new ExpendtrExcut(deptDivTemp, govoTemp, hgdeptDiv, dept, null, 0, null);
         //         data.add(expTemp);
         //     }
         // } catch (SQLException e) {

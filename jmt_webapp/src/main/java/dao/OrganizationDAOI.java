@@ -19,6 +19,6 @@ public interface OrganizationDAOI {
      * @param organization 기준이 될 조직
      * @return 기준 조직의 바로 아래 조직
      */
-    public List<Organization> getChildrenOf(Organization organization);
+    public List<Organization> getChildrenOf(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv, Organization dept);
 
 }

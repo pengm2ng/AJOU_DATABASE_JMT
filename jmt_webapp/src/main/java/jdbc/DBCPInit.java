@@ -32,7 +32,7 @@ public class DBCPInit extends HttpServlet {
         initConnectionPool();
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings({"unchecked", "rawtype"})
     private void initConnectionPool() {
 
         try {
