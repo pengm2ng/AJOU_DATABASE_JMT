@@ -1,7 +1,6 @@
 #selectionPage {
     width: 90%;
     margin: 0 auto;
-    border: 1px deeppink solid;
 }
 
 .selectionTitle {
@@ -16,7 +15,6 @@
 }
 
 #setIntervalPanel {
-    border: 1px red solid;
     width: fit-content;
     margin: 0 auto;
     margin-top: 20px;
@@ -32,7 +30,6 @@
 }
 
 #intervalSelectPanel {
-    border: 1px red solid;
     width: fit-content;
     margin: 0 auto;
     margin-top: 20px;
@@ -66,4 +63,22 @@
     -khtml-user-select: none;
     -webkit-user-select: none;
     user-select: none;
+}
+
+.organization select {
+  font-family: 'Nanum Gothic', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+
+  color: rgb(75, 168, 255);
+  padding: 0.2em;
+  min-width: 8em;
+  min-height: 2.3em;
+  margin-top: 0.3em;
+  margin-left: 1em;
+
+  border: 1px solid #aaa;
+  border-radius: 0.5em;
+  box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
 }
