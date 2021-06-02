@@ -58,7 +58,6 @@ try{
                     organizationGovofcDiv, organizationHgdeptDiv, organizationDept,date1,null);
         }else if(startDate == "" && endDate != ""){
             Date date2 = Date.valueOf(endDate);
-
              list = ExpendtrExcutDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
                     organizationGovofcDiv, organizationHgdeptDiv, organizationDept,null,date2);
         }
