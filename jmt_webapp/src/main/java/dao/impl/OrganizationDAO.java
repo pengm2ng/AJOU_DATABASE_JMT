@@ -40,17 +40,14 @@ public class OrganizationDAO implements OrganizationDAOI {
     public List<Organization> getAllOrganization(Class<? extends Organization> organizationClass) {
         if (organizationClass.equals(DeptDiv.class)) {
             // DeptDiv 부서구분 전체 가져오기
-            try (Connection conn = ConnectionProvider.getJDBCConnection()) {
-                List<Organization> deptDivList = new ArrayList<>();
-
-                PreparedStatement pstmt = conn.prepareStatement("select * from \"DeptDiv\"");
-                ResultSet rs = pstmt.executeQuery();
+            List<Organization> deptDivList = new ArrayList<>();
+            try (Connection conn = ConnectionProvider.getJDBCConnection();
+                    PreparedStatement pstmt = conn.prepareStatement("select * from \"DeptDiv\"");
+                    ResultSet rs = pstmt.executeQuery();) {
 
                 while (rs.next()) {
                     deptDivList.add(new DeptDiv(rs.getString("dept_div_cd"), rs.getString("dept_div_nm")));
                 }
-                pstmt.close();
-                rs.close();
                 return deptDivList;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -58,51 +55,42 @@ public class OrganizationDAO implements OrganizationDAOI {
 
         } else if (organizationClass.equals(GovofcDiv.class)) {
             // GovofcDiv 관서 전체 가져오기
-            try (Connection conn = ConnectionProvider.getJDBCConnection()) {
-                List<Organization> govofcDivList = new ArrayList<>();
-
-                PreparedStatement pstmt = conn.prepareStatement("select * from \"GovofcDiv\"");
-                ResultSet rs = pstmt.executeQuery();
+            List<Organization> govofcDivList = new ArrayList<>();
+            try (Connection conn = ConnectionProvider.getJDBCConnection();
+                    PreparedStatement pstmt = conn.prepareStatement("select * from \"GovofcDiv\"");
+                    ResultSet rs = pstmt.executeQuery();) {
 
                 while (rs.next()) {
                     govofcDivList.add(new GovofcDiv(rs.getString("govofc_div_cd"), rs.getString("govofc_div_nm")));
                 }
-                pstmt.close();
-                rs.close();
                 return govofcDivList;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } else if (organizationClass.equals(HgdeptDiv.class)) {
             // HgdeptDiv 실국 전체 가져오기
-            try (Connection conn = ConnectionProvider.getJDBCConnection()) {
-                List<Organization> hgdeptDivList = new ArrayList<>();
-
-                PreparedStatement pstmt = conn.prepareStatement("select * from \"HgdeptDiv\"");
-                ResultSet rs = pstmt.executeQuery();
+            List<Organization> hgdeptDivList = new ArrayList<>();
+            try (Connection conn = ConnectionProvider.getJDBCConnection();
+                    PreparedStatement pstmt = conn.prepareStatement("select * from \"HgdeptDiv\"");
+                    ResultSet rs = pstmt.executeQuery();) {
 
                 while (rs.next()) {
                     hgdeptDivList.add(new HgdeptDiv(rs.getString("hgdept_div_cd"), rs.getString("hgdept_div_nm")));
                 }
-                pstmt.close();
-                rs.close();
                 return hgdeptDivList;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } else if (organizationClass.equals(Dept.class)) {
             // Dept 부서 전체 가져오기
-            try (Connection conn = ConnectionProvider.getJDBCConnection()) {
-                List<Organization> deptList = new ArrayList<>();
-
-                PreparedStatement pstmt = conn.prepareStatement("select * from \"Dept\"");
-                ResultSet rs = pstmt.executeQuery();
+            List<Organization> deptList = new ArrayList<>();
+            try (Connection conn = ConnectionProvider.getJDBCConnection();
+                    PreparedStatement pstmt = conn.prepareStatement("select * from \"Dept\"");
+                    ResultSet rs = pstmt.executeQuery();) {
 
                 while (rs.next()) {
                     deptList.add(new Dept(rs.getString("dept_cd_nm"), rs.getString("dept_nm")));
                 }
-                pstmt.close();
-                rs.close();
                 return deptList;
             } catch (SQLException e) {
                 e.printStackTrace();
