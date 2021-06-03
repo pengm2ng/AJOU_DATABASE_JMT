@@ -48,6 +48,8 @@ public class OrganizationDAO implements OrganizationDAOI {
                 while (rs.next()) {
                     deptDivList.add(new DeptDiv(rs.getString("dept_div_cd"), rs.getString("dept_div_nm")));
                 }
+                pstmt.close();
+                rs.close();
                 return deptDivList;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -63,6 +65,8 @@ public class OrganizationDAO implements OrganizationDAOI {
                 while (rs.next()) {
                     govofcDivList.add(new GovofcDiv(rs.getString("govofc_div_cd"), rs.getString("govofc_div_nm")));
                 }
+                pstmt.close();
+                rs.close();
                 return govofcDivList;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -77,6 +81,8 @@ public class OrganizationDAO implements OrganizationDAOI {
                 while (rs.next()) {
                     hgdeptDivList.add(new HgdeptDiv(rs.getString("hgdept_div_cd"), rs.getString("hgdept_div_nm")));
                 }
+                pstmt.close();
+                rs.close();
                 return hgdeptDivList;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -91,6 +97,8 @@ public class OrganizationDAO implements OrganizationDAOI {
                 while (rs.next()) {
                     deptList.add(new Dept(rs.getString("dept_cd_nm"), rs.getString("dept_nm")));
                 }
+                pstmt.close();
+                rs.close();
                 return deptList;
             } catch (SQLException e) {
                 e.printStackTrace();

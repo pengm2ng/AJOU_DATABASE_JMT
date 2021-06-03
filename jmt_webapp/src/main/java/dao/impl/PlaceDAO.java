@@ -32,6 +32,7 @@ public class PlaceDAO implements PlaceDAOI {
 
             pstmt.setString(1, place.getBizNo());
             pstmt.executeUpdate();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
