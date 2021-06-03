@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +27,7 @@ public class ExpendtrExcutDAO implements ExpendtrExcutI {
     + "where dept_div_nm like '?' and govofc_div_nm like '?' and hgdept_div_nm like '?' and dept_nm like '?'\n"
     + "group by place_nm, like_count order by total_amt desc limit 10"; 
 
-private ExpendtrExcutDAO() { }
+private ExpendtrExcutDAO(){ }
 
 public static ExpendtrExcutDAO getInstance() {
     return InstHolder.INSTANCE;
@@ -46,8 +47,9 @@ public List<ExpendtrExcut> getPlaceTopTen(Organization deptDiv, Organization gov
     String hgdeptDivName = hgdeptDiv == null ? "%" : hgdeptDiv.getOrganizationName();
     String deptName = dept == null ? "%" : dept.getOrganizationName();
 
+
     List<ExpendtrExcut> placeTopTen = new ArrayList<>();
-    try (var conn = ConnectionProvider.getJDBCConnection()) {
+    try (Connection conn = ConnectionProvider.getJDBCConnection()) {
         PreparedStatement pstmt = conn.prepareStatement(EXPENDTREXCUT_QUERY1);
 
         pstmt.setString(1, deptDivName);
@@ -64,7 +66,7 @@ public List<ExpendtrExcut> getPlaceTopTen(Organization deptDiv, Organization gov
             pstmt.setString(1, rs.getString("place_nm"));
             ResultSet rsPlace = pstmt.executeQuery();
             Place place = new Place(rsPlace.getString("biz_reg_no"), rs.getString("place_nm"), rs.getInt("like_count"));
-            placeTopTen.add(ExpendtrExcut(deptDiv, govofcDiv, hgdeptDiv, dept, startDate, endDate, rs.getlong("total_amt"), place));
+            placeTopTen.add(new ExpendtrExcut(deptDiv, govofcDiv, hgdeptDiv, dept, startDate, endDate, rs.getInt("total_amt"), place));
         }
 
         pstmt.close();
@@ -74,6 +76,7 @@ public List<ExpendtrExcut> getPlaceTopTen(Organization deptDiv, Organization gov
     }catch (SQLException e) {
         e.printStackTrace();
     }
+    return new ArrayList<>();
 }
 
 //범위를 지정하지 않았을때
@@ -87,7 +90,7 @@ public List<ExpendtrExcut> getPlaceTopTen(Organization deptDiv, Organization gov
     String deptName = dept == null ? "%" : dept.getOrganizationName();
 
     List<ExpendtrExcut> placeTopTen = new ArrayList<>();
-    try (var conn = ConnectionProvider.getJDBCConnection()) {
+    try (Connection conn = ConnectionProvider.getJDBCConnection()) {
         PreparedStatement pstmt = conn.prepareStatement(EXPENDTREXCUT_QUERY2);
 
         pstmt.setString(1, deptDivName);
@@ -102,7 +105,7 @@ public List<ExpendtrExcut> getPlaceTopTen(Organization deptDiv, Organization gov
             pstmt.setString(1, rs.getString("place_nm"));
             ResultSet rsPlace = pstmt.executeQuery();
             Place place = new Place(rsPlace.getString("biz_reg_no"), rs.getString("place_nm"), rs.getInt("like_count"));
-            placeTopTen.add(ExpendtrExcut(deptDiv, govofcDiv, hgdeptDiv, dept, null, null, rs.getLong("total_amt"), place));
+            placeTopTen.add(new ExpendtrExcut(deptDiv, govofcDiv, hgdeptDiv, dept, null, null, rs.getInt("total_amt"), place));
         }
 
         pstmt.close();

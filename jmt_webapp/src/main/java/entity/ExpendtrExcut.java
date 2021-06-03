@@ -9,11 +9,11 @@ public class ExpendtrExcut {
     private Organization dept;
     private Date startDate;
     private Date endDate;
-    private long totalAmt;
+    private int totalAmt;
     private Place place;
 
     public ExpendtrExcut(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv, Organization dept,
-            Date startDate, Date endDate, long totalAmt, Place place) {
+            Date startDate, Date endDate, int totalAmt, Place place) {
 
         if (!deptDiv.getClass().equals(DeptDiv.class)) {
             throw new RuntimeException("deptDiv argument has to be DeptDiv type");
@@ -38,7 +38,7 @@ public class ExpendtrExcut {
         this.place = place;
     }
 
-    public ExpendtrExcut(Date startDate, Date endDate, long totalAmt, Place place) {
+    public ExpendtrExcut(Date startDate, Date endDate, int totalAmt, Place place) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalAmt = totalAmt;
@@ -73,7 +73,7 @@ public class ExpendtrExcut {
      * 총 사용 금액 가져오기
      * @return 총 사용 금액
      */
-    public long getTotalAmt() {
+    public int getTotalAmt() {
         return this.totalAmt;
     }
 

@@ -20,9 +20,9 @@ try{
         Organization organizationGovofcDiv = null;
         Organization organizationDeptDiv = null;
         Organization organizationHgdeptDiv = null;
-        String startDate = null;
-        String endDate = null;
-        if (request.getParameter("deptDiv") == null || request.getParameter("deptDiv").isEmpty()) {
+        Date startDate = null;
+        Date endDate = null;
+        if (request.getParameter("deptDiv") == null && request.getParameter("deptDiv").isEmpty()) {
             organizationDeptDiv = null;
 
         } else {
@@ -30,61 +30,51 @@ try{
             organizationDeptDiv = new DeptDiv(null, deptDiv);
         }
 
-        if (request.getParameter("govofcDiv") == null || request.getParameter("govofcDiv").isEmpty()) {
+        if (request.getParameter("govofcDiv") == null && request.getParameter("govofcDiv").isEmpty()) {
             organizationGovofcDiv = null;
         } else {
             govofcDiv = request.getParameter("govofcDiv");
             organizationGovofcDiv = new GovofcDiv(null, govofcDiv);
         }
 
-        if (request.getParameter("hgdeptDiv") == null || request.getParameter("hgdeptDiv").isEmpty()) {
+        if (request.getParameter("hgdeptDiv") == null && request.getParameter("hgdeptDiv").isEmpty()) {
             organizationHgdeptDiv = null;
         } else {
             hgdeptDiv = request.getParameter("hgdeptDiv");
             organizationHgdeptDiv = new HgdeptDiv(null, hgdeptDiv);
         }
 
-        if (request.getParameter("dept") == null || request.getParameter("dept").isEmpty()) {
+        if (request.getParameter("dept") == null && request.getParameter("dept").isEmpty()) {
             organizationDept = null;
         } else {
             dept = request.getParameter("dept");
             organizationDept = new Dept(null, dept);
         }
 
-        if(request.getParameter("startDate")==null){
+        if(request.getParameter("startDate")==null && request.getParameter("startDate").isEmpty()){
              startDate = null;
         }else{
-             startDate = request.getParameter("startDate");
+             startDate = new Date(request.getParameter("startDate"));
         }
 
-        if(request.getParameter("endDate")==null){
+        if(request.getParameter("endDate")==null && request.getParameter("endDate").isEmpty()){
              endDate = null;
         }else{
-             endDate = request.getParameter("endDate");
+            endDate = new Date(request.getParameter("endDate"));
             
         }
         
         List<ExpendtrExcut> list = new ArrayList();
 
-        if (!(startDate.isEmpty()) && !(endDate.isEmpty())) {
-            Date date1 = Date.valueOf(startDate);
-            Date date2 = Date.valueOf(endDate);
+        if (startDate == null && endDate == null) {
+           
             list = ExpendtrExcutDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
-                    organizationGovofcDiv, organizationHgdeptDiv, organizationDept, date1, date2);
-            // json으로 변환
-        } else if(startDate.isEmpty() && endDate.isEmpty()) {
-             list = ExpendtrExcutDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
                     organizationGovofcDiv, organizationHgdeptDiv, organizationDept);
-
-        } else if ((!startDate.isEmpty()) && endDate.isEmpty()) {
-            Date date1 = Date.valueOf(startDate);
-
+            // json으로 변환
+        } else {
              list = ExpendtrExcutDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
-                    organizationGovofcDiv, organizationHgdeptDiv, organizationDept,date1,null);
-        } else if (startDate.isEmpty() && (!endDate.isEmpty())) {
-            Date date2 = Date.valueOf(endDate);
-             list = ExpendtrExcutDAO.getInstance().getPlaceTopTen(organizationDeptDiv,
-                    organizationGovofcDiv, organizationHgdeptDiv, organizationDept,null,date2);
+                    organizationGovofcDiv, organizationHgdeptDiv, organizationDept, startDate, endDate);
+
         }
         JSONArray jsonArray = new JSONArray();
         JSONObject restaurantJsonObject = new JSONObject();
