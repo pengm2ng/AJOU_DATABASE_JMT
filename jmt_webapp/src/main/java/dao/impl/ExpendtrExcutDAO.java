@@ -15,77 +15,104 @@ import entity.Place;
 import jdbc.ConnectionProvider;
 
 public class ExpendtrExcutDAO implements ExpendtrExcutI {
+    private static final String EXPENDTREXCUT_QUERY1 ="select place_nm, sum(expendtr_rsltn_amt) total_amt, coalesce(like_count,0)\n"
+    + "from \"ExpendtrTotalExcut\"\n"
+    + "where dept_div_nm like '?' and govofc_div_nm like '?' and hgdept_div_nm like '?' and dept_nm like '?'\n"
+    + "and paymnt_command_de >= '?'' and paymnt_command_de <= '?'"
+    + "group by place_nm, like_count order by total_amt desc limit 10"; 
 
-    private ExpendtrExcutDAO() { }
+    private static final String EXPENDTREXCUT_QUERY2 ="select place_nm, sum(expendtr_rsltn_amt) total_amt, coalesce(like_count,0)\n"
+    + "from \"ExpendtrTotalExcut\"\n"
+    + "where dept_div_nm like '?' and govofc_div_nm like '?' and hgdept_div_nm like '?' and dept_nm like '?'\n"
+    + "group by place_nm, like_count order by total_amt desc limit 10"; 
 
-    public static ExpendtrExcutDAO getInstance() {
-        return InstHolder.INSTANCE;
+private ExpendtrExcutDAO() { }
+
+public static ExpendtrExcutDAO getInstance() {
+    return InstHolder.INSTANCE;
+}
+
+private static class InstHolder {
+    public static final ExpendtrExcutDAO INSTANCE = new ExpendtrExcutDAO();
+}
+
+// 범위를 지정했을때
+@Override
+public List<ExpendtrExcut> getPlaceTopTen(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv,
+        Organization dept, Date startDate, Date endDate) {
+
+    String deptDivName = deptDiv == null ? "%" : deptDiv.getOrganizationName();
+    String govofcDivName = govofcDiv == null ? "%" : govofcDiv.getOrganizationName();
+    String hgdeptDivName = hgdeptDiv == null ? "%" : hgdeptDiv.getOrganizationName();
+    String deptName = dept == null ? "%" : dept.getOrganizationName();
+
+    List<ExpendtrExcut> placeTopTen = new ArrayList<>();
+    try (var conn = ConnectionProvider.getJDBCConnection()) {
+        PreparedStatement pstmt = conn.prepareStatement(EXPENDTREXCUT_QUERY1);
+
+        pstmt.setString(1, deptDivName);
+        pstmt.setString(2, govofcDivName);
+        pstmt.setString(3, hgdeptDivName);
+        pstmt.setString(4, deptName);
+        pstmt.setDate(5, startDate);
+        pstmt.setDate(6, endDate);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        while(rs.next()){
+            pstmt = conn.prepareStatement("select * from BizPlace where place_nm='?");
+            pstmt.setString(1, rs.getString("place_nm"));
+            ResultSet rsPlace = pstmt.executeQuery();
+            Place place = new Place(rsPlace.getString("biz_reg_no"), rs.getString("place_nm"), rs.getInt("like_count"));
+            placeTopTen.add(ExpendtrExcut(deptDiv, govofcDiv, hgdeptDiv, dept, startDate, endDate, rs.getlong("total_amt"), place));
+        }
+
+        pstmt.close();
+        rs.close();
+
+        return placeTopTen;
+    }catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+//범위를 지정하지 않았을때
+@Override
+public List<ExpendtrExcut> getPlaceTopTen(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv,
+        Organization dept) {
+    
+    String deptDivName = deptDiv == null ? "%" : deptDiv.getOrganizationName();
+    String govofcDivName = govofcDiv == null ? "%" : govofcDiv.getOrganizationName();
+    String hgdeptDivName = hgdeptDiv == null ? "%" : hgdeptDiv.getOrganizationName();
+    String deptName = dept == null ? "%" : dept.getOrganizationName();
+
+    List<ExpendtrExcut> placeTopTen = new ArrayList<>();
+    try (var conn = ConnectionProvider.getJDBCConnection()) {
+        PreparedStatement pstmt = conn.prepareStatement(EXPENDTREXCUT_QUERY2);
+
+        pstmt.setString(1, deptDivName);
+        pstmt.setString(2, govofcDivName);
+        pstmt.setString(3, hgdeptDivName);
+        pstmt.setString(4, deptName);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        while(rs.next()){
+            pstmt = conn.prepareStatement("select * from BizPlace where place_nm='?");
+            pstmt.setString(1, rs.getString("place_nm"));
+            ResultSet rsPlace = pstmt.executeQuery();
+            Place place = new Place(rsPlace.getString("biz_reg_no"), rs.getString("place_nm"), rs.getInt("like_count"));
+            placeTopTen.add(ExpendtrExcut(deptDiv, govofcDiv, hgdeptDiv, dept, null, null, rs.getLong("total_amt"), place));
+        }
+
+        pstmt.close();
+        rs.close();
+
+        return placeTopTen;
+    }catch (SQLException e) {
+        e.printStackTrace();
     }
 
-    private static class InstHolder {
-        public static final ExpendtrExcutDAO INSTANCE = new ExpendtrExcutDAO();
-    }
-
-    @Override
-    public List<ExpendtrExcut> getPlaceTopTen(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv,
-            Organization dept, Date startDate, Date endDate) {
-
-        /*
-            select dept_div_nm,
-                govofc_div_nm,
-                hgdept_div_nm,
-                dept_nm,
-                paymnt_command_de,
-                like_count,
-                accnut_yy,
-                place_nm,
-                sum(expendtr_rsltn_amt) total_amt
-            from "ExpendtrTotalExcut"
-            group by dept_div_nm, govofc_div_nm, hgdept_div_nm, dept_nm, paymnt_command_de, like_count, accnut_yy, place_nm
-            order by total_amt desc
-            limit 10
-         */
-
-        List<ExpendtrExcut> data = new ArrayList<>();
-        // try (var conn = ConnectionProvider.getJDBCConnection()) {
-        //     PreparedStatement pstmt = conn.prepareStatement("select dept_div_nm,
-        //     govofc_div_nm,
-        //     hgdept_div_nm,
-        //     dept_nm,
-        //     paymnt_command_de,
-        //     like_count,
-        //     accnut_yy,
-        //     place_nm,
-        //     sum(expendtr_rsltn_amt) total_amt
-        //     from "ExpendtrTotalExcut"
-        //     group by dept_div_nm, govofc_div_nm, hgdept_div_nm, dept_nm, paymnt_command_de, like_count, accnut_yy, place_nm
-        //     order by total_amt desc
-        //     limit 10
-        //     where paymnt_command_de >= ? and
-        //             paymnt_command_de <= ?");
-        //     pstmt.setDate(1, new Date(2020, 12, 5));
-        //     pstmt.setDate(2, new Date(2021, 1, 5));
-        //     ResultSet rs = pstmt.executeQuery();
-
-        //     Place place = new Place(rs.get, rs.get, 0)
-
-        //     while (rs.next()) {
-        //         Organization deptDivTemp = new DeptDiv(rs.getString(1), rs.getString(2));
-        //         Organization govoTemp = new GovofcDiv(rs.getString(3), rs.getString(4));
-        //         ExpendtrExcut expTemp = new ExpendtrExcut(deptDivTemp, govoTemp, hgdeptDiv, dept, null, 0, null);
-        //         data.add(expTemp);
-        //     }
-        // } catch (SQLException e) {
-        //     e.printStackTrace();
-        // }
-        return data;
-    }
-
-    @Override
-    public List<ExpendtrExcut> getPlaceTopTen(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv,
-            Organization dept) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    return null;
+}
 }
