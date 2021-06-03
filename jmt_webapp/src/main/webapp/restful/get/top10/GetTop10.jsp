@@ -10,9 +10,9 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.simple.JSONArray"%>
 <%@page import="org.json.simple.JSONObject"%>
-<%@page import="java.sql.Date"%>
 <%@page import="entity.Place"%>
 <%@page import="dao.map.KakaoMapProviderDAO"%>
+
 <%
     response.setHeader("Access-Control-Allow-Origin", "*");
 try{
@@ -20,9 +20,16 @@ try{
         Organization organizationGovofcDiv = null;
         Organization organizationDeptDiv = null;
         Organization organizationHgdeptDiv = null;
-        Date startDate = null;
-        Date endDate = null;
-        if (request.getParameter("deptDiv") == null && request.getParameter("deptDiv").isEmpty()) {
+        String deptDiv = null;
+        String hgdeptDiv = null;
+        String govofcDiv = null;
+        String dept = null;
+        String startDate = null;
+        String endDate = null;
+        String tempStartDate=null;
+        String tempendDate=null;
+
+        if (request.getParameter("deptDiv") == null || request.getParameter("deptDiv").isEmpty()) {
             organizationDeptDiv = null;
 
         } else {
@@ -30,39 +37,45 @@ try{
             organizationDeptDiv = new DeptDiv(null, deptDiv);
         }
 
-        if (request.getParameter("govofcDiv") == null && request.getParameter("govofcDiv").isEmpty()) {
+        if (request.getParameter("govofcDiv") == null || request.getParameter("govofcDiv").isEmpty()) {
             organizationGovofcDiv = null;
         } else {
             govofcDiv = request.getParameter("govofcDiv");
             organizationGovofcDiv = new GovofcDiv(null, govofcDiv);
         }
 
-        if (request.getParameter("hgdeptDiv") == null && request.getParameter("hgdeptDiv").isEmpty()) {
+        if (request.getParameter("hgdeptDiv") == null || request.getParameter("hgdeptDiv").isEmpty()) {
             organizationHgdeptDiv = null;
         } else {
             hgdeptDiv = request.getParameter("hgdeptDiv");
             organizationHgdeptDiv = new HgdeptDiv(null, hgdeptDiv);
         }
 
-        if (request.getParameter("dept") == null && request.getParameter("dept").isEmpty()) {
+        if (request.getParameter("dept") == null || request.getParameter("dept").isEmpty()) {
             organizationDept = null;
         } else {
             dept = request.getParameter("dept");
             organizationDept = new Dept(null, dept);
         }
 
-        if(request.getParameter("startDate")==null && request.getParameter("startDate").isEmpty()){
+        if(request.getParameter("startDate")==null || request.getParameter("startDate").isEmpty()){
              startDate = null;
         }else{
-             startDate = new Date(request.getParameter("startDate"));
-        }
-
-        if(request.getParameter("endDate")==null && request.getParameter("endDate").isEmpty()){
-             endDate = null;
-        }else{
-            endDate = new Date(request.getParameter("endDate"));
+           
+            startDate =  request.getParameter("startDate");
             
         }
+
+        if(request.getParameter("endDate")==null || request.getParameter("endDate").isEmpty()){
+             endDate = null;
+        }else{
+           
+            endDate = request.getParameter("endDate");
+            
+            
+        }
+        System.out.println(startDate);
+        System.out.println(endDate);
         
         List<ExpendtrExcut> list = new ArrayList();
 

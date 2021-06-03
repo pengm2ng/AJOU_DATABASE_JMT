@@ -36,8 +36,7 @@ public class KakaoMapProviderDAO {
 
         File file = new File("../webapps/ROOT/WEB-INF/resources/kakaoKey.txt");
         try (BufferedReader inFiles = new BufferedReader(
-                new InputStreamReader(new FileInputStream(file.getAbsolutePath()), "UTF8"));) {
-
+                new InputStreamReader(new FileInputStream(file.getAbsolutePath()), "UTF-8"));) {
 
             String key = inFiles.readLine();
             URL url = new URL("https://dapi.kakao.com/v2/local/search/keyword.json?page=1&size=1&sort=accuracy&query="
@@ -51,36 +50,42 @@ public class KakaoMapProviderDAO {
             conn.setDoInput(true);
             conn.setDoOutput(true);
 
-            System.out.println(conn.getRequestProperties());
             StringBuilder sb = new StringBuilder();
-            System.out.println(conn.getResponseCode());
+
             if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 // Stream을 처리해줘야 하는 귀찮음이 있음.
-                BufferedReader br2 = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+                BufferedReader br2 = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
                 String line;
                 while ((line = br2.readLine()) != null) {
                     sb.append(line).append("\n");
                 }
                 br2.close();
-                System.out.println(sb.toString());
-            } else {
-                System.out.println(conn.getResponseMessage());
+
             }
 
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(sb.toString());
             JSONArray jsonArray = (JSONArray) jsonObject.get("documents");
-            JSONObject jsonObject2 = (JSONObject) jsonArray.get(0);
-            List<String> list = new ArrayList<>();
+            if (jsonArray.isEmpty()) {
+                List<String> list = new ArrayList<>();
+                list.add("찾을 수 없음");
+                list.add("찾을 수 없음");
+                return list;
+            } else {
 
-            String[] array = jsonObject2.get("category_name").toString().split("> ");
+                JSONObject jsonObject2 = (JSONObject) jsonArray.get(0);
+                List<String> list = new ArrayList<>();
 
-            list.add(jsonObject2.get("address_name").toString());
-            list.add((array[array.length - 1]));
-            list.add(jsonObject2.get("x").toString());
-            list.add(jsonObject2.get("y").toString());
-            conn.disconnect();
-            return list;
+                String[] array = jsonObject2.get("category_name").toString().split("> ");
+
+                list.add(jsonObject2.get("address_name").toString());
+                list.add((array[array.length - 1]));
+                list.add(jsonObject2.get("x").toString());
+                list.add(jsonObject2.get("y").toString());
+                conn.disconnect();
+                return list;
+            }
         } catch (UnsupportedEncodingException e) {
 
             e.printStackTrace();

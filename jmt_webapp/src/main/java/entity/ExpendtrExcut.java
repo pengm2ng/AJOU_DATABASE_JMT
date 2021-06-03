@@ -15,16 +15,17 @@ public class ExpendtrExcut {
     public ExpendtrExcut(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv, Organization dept,
             Date startDate, Date endDate, int totalAmt, Place place) {
 
-        if (!deptDiv.getClass().equals(DeptDiv.class)) {
+        if(deptDiv != null &&!deptDiv.getClass().equals(DeptDiv.class)){
+            throw new RuntimeException("deptDiv argument has to be DeptDiv type");
+
+        } 
+        if (govofcDiv != null && !govofcDiv.getClass().equals(GovofcDiv.class)) {
             throw new RuntimeException("deptDiv argument has to be DeptDiv type");
         }
-        if (!govofcDiv.getClass().equals(GovofcDiv.class)) {
+        if (hgdeptDiv != null && !hgdeptDiv.getClass().equals(HgdeptDiv.class)) {
             throw new RuntimeException("deptDiv argument has to be DeptDiv type");
         }
-        if (!hgdeptDiv.getClass().equals(HgdeptDiv.class)) {
-            throw new RuntimeException("deptDiv argument has to be DeptDiv type");
-        }
-        if (!dept.getClass().equals(Dept.class)) {
+        if (dept != null && !dept.getClass().equals(Dept.class)) {
             throw new RuntimeException("deptDiv argument has to be DeptDiv type");
         }
 

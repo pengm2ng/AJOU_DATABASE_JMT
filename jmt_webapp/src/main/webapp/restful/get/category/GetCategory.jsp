@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="application/json; charset=utf-8" trimDirectiveWhitespaces="true"%>
-<%@page import="dao.test.OrganizationTestDAO"%>
 <%@page import="dao.impl.OrganizationDAO"%>
 <%@page import="entity.Organization"%>
 <%@page import="entity.DeptDiv"%>
