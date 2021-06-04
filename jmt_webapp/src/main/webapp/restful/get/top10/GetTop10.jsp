@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="application/json; charset=utf-8"%>
+<%@ page language="java" contentType="application/json; charset=utf-8" trimDirectiveWhitespaces="true"%>
 <%@page import="dao.impl.ExpendtrExcutDAO"%>
 <%@page import="entity.Organization"%>
 <%@page import="entity.DeptDiv"%>

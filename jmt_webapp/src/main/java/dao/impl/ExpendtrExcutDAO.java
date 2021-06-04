@@ -101,8 +101,6 @@ public class ExpendtrExcutDAO implements ExpendtrExcutI {
                 placeTopTen.add(new ExpendtrExcut(deptDiv, govofcDiv, hgdeptDiv, dept, null, null,
                         rs.getInt("total_amt"), place));
             }
-
-            
             rs.close();
             
             return placeTopTen;

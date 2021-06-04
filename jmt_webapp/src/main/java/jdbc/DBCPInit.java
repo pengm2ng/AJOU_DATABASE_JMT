@@ -44,7 +44,6 @@ public class DBCPInit extends HttpServlet {
             br.close();
             is.close();
             isr.close();
-            Class.forName("org.postgresql.Driver");
             ConnectionFactory connFactory = new DriverManagerConnectionFactory(jdbcUrl, username, pw);
             PoolableConnectionFactory poolableConnFactory = new PoolableConnectionFactory(connFactory, null);
             poolableConnFactory.setValidationQuery("select 1");
@@ -63,6 +62,7 @@ public class DBCPInit extends HttpServlet {
             PoolingDriver driver = (PoolingDriver) DriverManager.getDriver("jdbc:apache:commons:dbcp:");
             driver.registerPool("dbdbdev", connectionPool);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
 
