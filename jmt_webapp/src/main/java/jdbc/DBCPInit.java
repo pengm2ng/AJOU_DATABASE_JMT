@@ -34,7 +34,8 @@ public class DBCPInit extends HttpServlet {
     private void initConnectionPool() {
 
         try {
-            File file = new File("../webapps/ROOT/WEB-INF/resources/pk.txt");
+            File file = new File("webapps/ROOT/WEB-INF/resources/pk.txt");
+            System.out.println(file.getCanonicalPath());
             FileInputStream is = new FileInputStream(file);
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);

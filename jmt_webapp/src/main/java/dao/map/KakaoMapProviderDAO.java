@@ -34,7 +34,7 @@ public class KakaoMapProviderDAO {
 
     public List<String> findPlace(String placeName) {
 
-        File file = new File("../webapps/ROOT/WEB-INF/resources/kakaoKey.txt");
+        File file = new File("webapps/ROOT/WEB-INF/resources/kakaoKey.txt");
         try (BufferedReader inFiles = new BufferedReader(
                 new InputStreamReader(new FileInputStream(file.getAbsolutePath()), "UTF-8"));) {
 
