@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset='utf-8'>
+    <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <title>공무원 BEST 음식점</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='payload/css/mainFrame.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='payload/css/category.css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src='payload/js/frame.js'></script>
+    <script src='payload/js/category.js'></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="initFrame">
+        <header class="topperHeader">
+            <div class="topperTitle">
+                <strong>카테고리</strong>
+            </div>
+        </header>
+        <div class="mainPayload">
+            <div id="selectionPage">
+                <div id="deptDiv" class="organization">
+                    <p class="selectionTitle">부서 구분</p>
+                    <select name="deptDivSelector">
+                        <option>
+                            전체
+                        </option>
+                    </select>
+                </div>
+                <div id="govofcDiv" class="organization">
+                    <p class="selectionTitle">관서</p>
+                    <select name="govofcDivSelector">
+                        <option>
+                            전체
+                        </option>
+                    </select>
+                </div>
+                <div id="hgdeptDiv" class="organization">
+                    <p class="selectionTitle">실국</p>
+                    <select name="hgdeptDivSelector">
+                        <option>
+                            전체
+                        </option>
+                    </select>
+                </div>
+                <div id="dept" class="organization">
+                    <p class="selectionTitle">부서</p>
+                    <select name="deptSelector">
+                        <option>
+                            전체
+                        </option>
+                    </select>
+                </div>
+                <div id="setIntervalPanel">
+                    <div id="noIntervalPanel">
+                        <input type="radio" name="setIntervalSelection" checked=true value="uncheckInterval"/>
+                        범위지정 안함
+                    </div>
+                    <div id="yesIntervalPanel">
+                        <input type="radio" name="setIntervalSelection" value="checkInterval"/>
+                        범위지정
+                    </div>
+                </div>
+                <div id="intervalSelectPanel">
+                </div>
+            </div>
+            <div id="submitButton">
+                완료
+            </div>
+        </div>
+    </div>
+</body>
+</html>

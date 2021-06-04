@@ -1,0 +1,27 @@
+#startButton {
+    border-radius: 6px;
+    background-color: rgba(241,249,255,1);
+    width: 100px;
+    padding: 20px 5px;
+    margin: 0 auto;
+    margin-top: 30px;
+    text-align: center;
+    border: 3px dodgerblue solid;
+    -ms-user-select: none; 
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#mainImage {
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+h4 {
+    margin-top: 20px;
+    text-align: center;
+}

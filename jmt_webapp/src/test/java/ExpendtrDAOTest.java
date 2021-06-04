@@ -6,5 +6,6 @@ public class ExpendtrDAOTest {
     @Test
     public void getPlaceTopTenTest() {
         ExpendtrExcutDAO.getInstance();
+        
     }
 }

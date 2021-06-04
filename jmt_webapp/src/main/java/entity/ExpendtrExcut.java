@@ -1,27 +1,31 @@
 package entity;
 
+import java.sql.Date;
+
 public class ExpendtrExcut {
     private Organization deptDiv;
     private Organization govofcDiv;
     private Organization hgdeptDiv;
     private Organization dept;
-    private String accnutYY;
+    private Date startDate;
+    private Date endDate;
     private int totalAmt;
     private Place place;
 
     public ExpendtrExcut(Organization deptDiv, Organization govofcDiv, Organization hgdeptDiv, Organization dept,
-            String accnutYY, int totalAmt, Place place) {
+            Date startDate, Date endDate, int totalAmt, Place place) {
 
-        if (!deptDiv.getClass().equals(DeptDiv.class)) {
+        if(deptDiv != null &&!deptDiv.getClass().equals(DeptDiv.class)){
+            throw new RuntimeException("deptDiv argument has to be DeptDiv type");
+
+        } 
+        if (govofcDiv != null && !govofcDiv.getClass().equals(GovofcDiv.class)) {
             throw new RuntimeException("deptDiv argument has to be DeptDiv type");
         }
-        if (!govofcDiv.getClass().equals(GovofcDiv.class)) {
+        if (hgdeptDiv != null && !hgdeptDiv.getClass().equals(HgdeptDiv.class)) {
             throw new RuntimeException("deptDiv argument has to be DeptDiv type");
         }
-        if (!hgdeptDiv.getClass().equals(HgdeptDiv.class)) {
-            throw new RuntimeException("deptDiv argument has to be DeptDiv type");
-        }
-        if (!dept.getClass().equals(Dept.class)) {
+        if (dept != null && !dept.getClass().equals(Dept.class)) {
             throw new RuntimeException("deptDiv argument has to be DeptDiv type");
         }
 
@@ -29,13 +33,15 @@ public class ExpendtrExcut {
         this.govofcDiv = govofcDiv;
         this.hgdeptDiv = hgdeptDiv;
         this.dept = dept;
-        this.accnutYY = accnutYY;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.totalAmt = totalAmt;
         this.place = place;
     }
 
-    public ExpendtrExcut(String accnutYY, int totalAmt, Place place) {
-        this.accnutYY = accnutYY;
+    public ExpendtrExcut(Date startDate, Date endDate, int totalAmt, Place place) {
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.totalAmt = totalAmt;
         this.place = place;
     }
@@ -56,8 +62,12 @@ public class ExpendtrExcut {
         return this.dept;
     }
 
-    public String getAccnutYY() {
-        return this.accnutYY;
+    public Date startDate() {
+        return this.startDate;
+    }
+
+    public Date endDate(){
+        return this.endDate;
     }
 
     /**

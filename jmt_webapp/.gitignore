@@ -5,3 +5,8 @@
 .metadata
 /bin/
 .vscode/
+*.http
+pk.txt
+kakaoKey.txt
+.idea
+*.iml

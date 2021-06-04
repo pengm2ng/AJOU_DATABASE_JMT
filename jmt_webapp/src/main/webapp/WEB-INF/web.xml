@@ -9,4 +9,53 @@
     <servlet-class>jdbc.DBCPInit</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
+
+  <servlet>
+    <servlet-name>getCategory</servlet-name>
+    <jsp-file>/restful/get/category/GetCategory.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>setRecommendation</servlet-name>
+    <jsp-file>/restful/set/recommendation/SetRecommendation.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>getTop10</servlet-name>
+    <jsp-file>/restful/get/top10/GetTop10.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getCategory</servlet-name>
+    <url-pattern>/restful/get/category</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>setRecommendation</servlet-name>
+    <url-pattern>/restful/set/recommendation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>getTop10</servlet-name>
+    <url-pattern>/restful/get/top10</url-pattern>
+  </servlet-mapping>
+  <!-- html mapping -->
+  <!-- <servlet>
+    <servlet-name>htmlServlet</servlet-name>
+    <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>htmlServlet</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
+
+  <filter>
+    <filter-name>setCharEncoding</filter-name>
+    <filter-class>filters.SetCharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>setCharEncoding</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping> -->
 </web-app>

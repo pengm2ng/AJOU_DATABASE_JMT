@@ -1,11 +1,17 @@
 package dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import dao.PlaceDAOI;
 import entity.Place;
+import jdbc.ConnectionProvider;
 
 public class PlaceDAO implements PlaceDAOI {
 
-    private PlaceDAO() { }
+    private PlaceDAO() {
+    }
 
     public static PlaceDAO getInstance() {
         return InstHolder.INSTANCE;
@@ -17,8 +23,18 @@ public class PlaceDAO implements PlaceDAOI {
 
     @Override
     public void updateLikeCount(Place place) {
-        // TODO Auto-generated method stub
+        if (place.getBizNo() == null && place.getPlaceName() == null) {
+            throw new RuntimeException();
+        }
+        try (Connection conn = ConnectionProvider.getJDBCConnection();
+                PreparedStatement pstmt = conn.prepareStatement(
+                        "update \"PlaceRecommend\" set like_count = like_count + 1 where biz_reg_no = ?");) {
 
+            pstmt.setString(1, place.getBizNo());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-
 }
