@@ -34,7 +34,8 @@ public class DBCPInit extends HttpServlet {
     private void initConnectionPool() {
 
         try {
-            File file = new File("../webapps/ROOT/WEB-INF/resources/pk.txt");
+            File file = new File("webapps/ROOT/WEB-INF/resources/pk.txt");
+            System.out.println(file.getCanonicalPath());
             FileInputStream is = new FileInputStream(file);
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
@@ -44,7 +45,6 @@ public class DBCPInit extends HttpServlet {
             br.close();
             is.close();
             isr.close();
-            Class.forName("org.postgresql.Driver");
             ConnectionFactory connFactory = new DriverManagerConnectionFactory(jdbcUrl, username, pw);
             PoolableConnectionFactory poolableConnFactory = new PoolableConnectionFactory(connFactory, null);
             poolableConnFactory.setValidationQuery("select 1");
@@ -63,6 +63,7 @@ public class DBCPInit extends HttpServlet {
             PoolingDriver driver = (PoolingDriver) DriverManager.getDriver("jdbc:apache:commons:dbcp:");
             driver.registerPool("dbdbdev", connectionPool);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
 

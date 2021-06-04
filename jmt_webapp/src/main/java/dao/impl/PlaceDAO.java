@@ -23,19 +23,18 @@ public class PlaceDAO implements PlaceDAOI {
 
     @Override
     public void updateLikeCount(Place place) {
-        if (place.getBizNo() == null || place.getPlaceName() == null) {
+        if (place.getBizNo() == null && place.getPlaceName() == null) {
             throw new RuntimeException();
         }
         try (Connection conn = ConnectionProvider.getJDBCConnection();
                 PreparedStatement pstmt = conn.prepareStatement(
-                        "update \"ExpendtrTotalExcut\" set like_count = like_count + 1 where biz_no = ?");) {
+                        "update \"PlaceRecommend\" set like_count = like_count + 1 where biz_reg_no = ?");) {
 
             pstmt.setString(1, place.getBizNo());
             pstmt.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
-
 }
